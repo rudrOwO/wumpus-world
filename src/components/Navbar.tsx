@@ -1,11 +1,9 @@
-import { useSimulation } from "../contexts/Simulation"
-import { chakra, Flex, Tooltip } from "@chakra-ui/react"
-import { RiArrowGoForwardLine, RiPlayCircleLine, RiPauseCircleLine } from "react-icons/ri"
-import { VscGithub } from "react-icons/vsc"
+import { chakra, Center } from "@chakra-ui/react"
+import { PlayPauseButton } from "./PlayPauseButton"
+import { StepForwardButton } from "./StepForwardButton"
+import { GithubButton } from "./GithubButton"
 
 export const Navbar = () => {
-  const { isPlaying: isPlaying } = useSimulation()!
-
   return (
     <chakra.nav
       shadow="xl"
@@ -19,15 +17,14 @@ export const Navbar = () => {
       top="0"
       display="flex"
       alignItems="center"
-      justifyContent={"space-between"}
+      justifyContent="space-between"
     >
       Wumpus World
-      <Flex>
-        <RiPlayCircleLine />
-        <RiPauseCircleLine />
-        <RiArrowGoForwardLine />
-      </Flex>
-      <VscGithub />
+      <Center>
+        <PlayPauseButton />
+        <StepForwardButton />
+      </Center>
+      <GithubButton />
     </chakra.nav>
   )
 }
