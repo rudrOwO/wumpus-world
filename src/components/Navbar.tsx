@@ -1,4 +1,4 @@
-import { chakra, Center } from "@chakra-ui/react"
+import { chakra, Image, Center } from "@chakra-ui/react"
 import { PlayPauseButton } from "./PlayPauseButton"
 import { StepForwardButton } from "./StepForwardButton"
 import { GithubButton } from "./GithubButton"
@@ -12,15 +12,19 @@ export const Navbar = () => {
       color="white"
       fontFamily="Discoteque St"
       width="100%"
-      bg="purple.600"
-      position="sticky"
+      height="6vh"
+      bg="gray.600"
+      position="fixed"
       top="0"
       display="flex"
       alignItems="center"
       justifyContent="space-between"
     >
-      Wumpus World
       <Center>
+        <Image src="wumpus.png" h="5vh" mr="3" />
+        Wumpus World
+      </Center>
+      <Center h="inherit" zIndex={1} w="100vw" position="fixed">
         <PlayPauseButton />
         <StepForwardButton />
       </Center>

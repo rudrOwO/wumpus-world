@@ -1,10 +1,7 @@
-import { useState } from "react"
 import { Navbar } from "./components/Navbar"
 import { Center } from "@chakra-ui/react"
 
 const App = () => {
-  const [isPlaying, setIsPlaying] = useState(false)
-
   return (
     <>
       <Navbar />
