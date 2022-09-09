@@ -1,10 +1,10 @@
-import { NavButton } from "./NavButton"
+import { PanelButton } from "./PanelButton"
 import { useSimulation } from "../contexts/Simulation"
 import { VscGithub } from "react-icons/vsc"
 import { Center, Link } from "@chakra-ui/react"
 
 export const GithubButton = () => (
-  <NavButton toolTip="View Source">
+  <PanelButton toolTip="View Source">
     <Link
       zIndex={2}
       href="https://github.com/rudrowo"
@@ -15,5 +15,5 @@ export const GithubButton = () => (
     >
       <VscGithub size="80%" />
     </Link>
-  </NavButton>
+  </PanelButton>
 )

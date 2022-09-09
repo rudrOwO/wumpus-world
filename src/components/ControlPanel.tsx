@@ -3,7 +3,7 @@ import { PlayPauseButton } from "./PlayPauseButton"
 import { StepForwardButton } from "./StepForwardButton"
 import { GithubButton } from "./GithubButton"
 
-export const Navbar = () => {
+export const ControlPanel = () => {
   return (
     <chakra.nav
       shadow="xl"

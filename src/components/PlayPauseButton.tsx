@@ -1,4 +1,4 @@
-import { NavButton } from "./NavButton"
+import { PanelButton } from "./PanelButton"
 import { useCallback, useState } from "react"
 import { useSimulation } from "../contexts/Simulation"
 import { RiPlayCircleLine, RiPauseCircleLine } from "react-icons/ri"
@@ -13,8 +13,8 @@ export const PlayPauseButton = () => {
   }, [isTipped])
 
   return (
-    <NavButton onClick={handleClick} toolTip={isTipped ? "" : "Play/Pause Simulation"}>
+    <PanelButton onClick={handleClick} toolTip={isTipped ? "" : "Play/Pause Simulation"}>
       {isPlaying ? <RiPauseCircleLine size="90%" /> : <RiPlayCircleLine size="90%" />}
-    </NavButton>
+    </PanelButton>
   )
 }

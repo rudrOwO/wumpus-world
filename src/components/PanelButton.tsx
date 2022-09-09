@@ -8,7 +8,7 @@ interface NavButtonProps {
   children: ReactNode
 }
 
-export const NavButton = (props: NavButtonProps) => {
+export const PanelButton = (props: NavButtonProps) => {
   const { onClick: handleClick, disabled = false, toolTip: toolTipMessage, children } = props
 
   return (

@@ -1,4 +1,4 @@
-import { NavButton } from "./NavButton"
+import { PanelButton } from "./PanelButton"
 import { useCallback, useState } from "react"
 import { useSimulation } from "../contexts/Simulation"
 import { RiArrowGoForwardLine } from "react-icons/ri"
@@ -12,8 +12,12 @@ export const StepForwardButton = () => {
   }, [isTipped])
 
   return (
-    <NavButton onClick={handleClick} toolTip={isTipped ? "" : "Step Forward"} disabled={isPlaying}>
+    <PanelButton
+      onClick={handleClick}
+      toolTip={isTipped ? "" : "Step Forward"}
+      disabled={isPlaying}
+    >
       <RiArrowGoForwardLine size="80%" />
-    </NavButton>
+    </PanelButton>
   )
 }
