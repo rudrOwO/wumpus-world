@@ -1,8 +1,11 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
-
-interface Props {
-  children: ReactNode
-}
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react"
 
 interface SimulationContextProps {
   isPlaying: boolean
@@ -11,7 +14,7 @@ interface SimulationContextProps {
 
 const SimulationContext = createContext<SimulationContextProps | null>(null)
 
-export const SimulationProvider = ({ children }: Props) => {
+export const SimulationProvider = ({ children }: { children: ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState(false)
 
   return (
