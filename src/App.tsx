@@ -7,13 +7,9 @@ const App = () => {
   return (
     <Flex flexDirection="column" w="100vw" h="100vh">
       <ControlPanel />
-      <Flex flexGrow={100} bgGradient="linear-gradient(#404040, #a3a3a3)">
-        <Box flex={3} h="100%">
-          <Stage />
-        </Box>
-        <Box display={["none", "none", "block"]} flex={1} h="100%">
-          <AgentPanel />
-        </Box>
+      <Flex flexGrow={1} bgGradient="linear-gradient(#404040, #a3a3a3)">
+        <Stage />
+        <AgentPanel />
       </Flex>
     </Flex>
   )

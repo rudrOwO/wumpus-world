@@ -4,7 +4,7 @@ import { useSimulation } from "../contexts/Simulation"
 import { RiArrowGoForwardLine } from "react-icons/ri"
 
 export const StepForwardButton = () => {
-  const { isPlaying: isPlaying } = useSimulation()!
+  const { isPlaying: isPlaying } = useSimulation()
   const [isTipped, setISTipped] = useState(false)
 
   const handleClick = useCallback(() => {

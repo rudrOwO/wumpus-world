@@ -24,4 +24,4 @@ export const SimulationProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const useSimulation = () => useContext(SimulationContext)
+export const useSimulation = () => useContext(SimulationContext)!

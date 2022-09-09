@@ -4,7 +4,7 @@ import { useSimulation } from "../contexts/Simulation"
 import { RiPlayCircleLine, RiPauseCircleLine } from "react-icons/ri"
 
 export const PlayPauseButton = () => {
-  const { isPlaying, setIsPlaying } = useSimulation()!
+  const { isPlaying, setIsPlaying } = useSimulation()
   const [isTipped, setISTipped] = useState(false)
 
   const handleClick = useCallback(() => {
