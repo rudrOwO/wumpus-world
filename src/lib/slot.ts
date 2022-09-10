@@ -1,4 +1,4 @@
-import { Position, wumpusImage, stenchImage, breezeImage, goldImage } from "./game"
+import { Position, wumpusImage, stenchImage, breezeImage, goldImage, agentImage } from "./game"
 
 export enum SlotType {
   SAFE, // S

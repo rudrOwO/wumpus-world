@@ -27,7 +27,7 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
   const testPos: Position = { y: canvasDimension / 2, x: canvasDimension / 2 }
   const testSlot = new Slot(SlotType.WUMPUS, testPos)
 
-  testSlot.isHidden = true
+  testSlot.isHidden = false
   testSlot.hasStench = false
   testSlot.hasBreeze = false
   // ? Test Stuff
@@ -55,8 +55,7 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
     )
   )
 
-  // * Draw Loops
-  // ! Use Two
+  // * Loops for drawing the stage ~ Uses Painter's Algorithm
   testSlot.drawTile(ctx, canvasDimension / 12)
   testSlot.drawEnvironmentVariable(ctx, canvasDimension / 12)
 }
