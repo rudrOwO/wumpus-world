@@ -1,4 +1,4 @@
-import { Position, wumpusImage, stenchImage, breezeImage, goldImage, agentImage } from "./game"
+import { Position, wumpusImage, goldImage } from "./game"
 
 export enum SlotType {
   SAFE, // S
@@ -73,18 +73,44 @@ export class Slot {
 
     ctx.drawImage(
       wumpusImage,
-      x - scale * Math.SQRT1_2 * 0.75,
-      y - scale * Math.SQRT2 * 0.7,
-      scale * Math.SQRT2 * 0.8,
-      scale * Math.SQRT2 * 0.8
+      x - scale * Math.SQRT1_2,
+      y - scale * Math.SQRT2 * 0.9,
+      scale * Math.SQRT2,
+      scale * Math.SQRT2
     )
   }
 
   private drawGold(ctx: CanvasRenderingContext2D, scale: number) {
     const { x, y } = { ...this.renderLocation }
+
+    ctx.drawImage(
+      goldImage,
+      x - scale * Math.SQRT1_2,
+      y - scale * 0.9,
+      scale * Math.SQRT2,
+      scale * Math.SQRT2
+    )
   }
 
-  private drawSenses(ctx: CanvasRenderingContext2D, scale: number) {}
+  private drawSenses(ctx: CanvasRenderingContext2D, scale: number) {
+    const { x, y } = { ...this.renderLocation }
+
+    // Transforming Matrix for writing skewed Text
+    ctx.translate(x - scale, y + 20)
+    ctx.rotate(-0.463647609) // arctan(1 / 2)
+    ctx.fillStyle = "black"
+
+    if (this.hasStench) {
+      ctx.fillText("STENCH", 28, 4)
+    }
+
+    if (this.hasBreeze) {
+      ctx.fillText("BREEZE", 56, 35)
+    }
+
+    // Resetting Transformer to identity matrix
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
 
   drawEnvironmentVariable(ctx: CanvasRenderingContext2D, scale: number) {
     if (this.isHidden) {
@@ -92,16 +118,18 @@ export class Slot {
     }
 
     if (this.type === SlotType.WUMPUS) {
-      this.drawWumpus(ctx, scale)
+      this.drawWumpus(ctx, scale * 0.75)
       return
     }
 
     if (this.type === SlotType.GOLD) {
-      this.drawGold(ctx, scale)
+      this.drawGold(ctx, scale * 0.9)
       return
     }
 
-    this.drawSenses(ctx, scale) // Always draw indicators on a safe Tile
+    if (this.type !== SlotType.PIT) {
+      this.drawSenses(ctx, scale)
+    }
 
     ctx.globalAlpha = 1
   }

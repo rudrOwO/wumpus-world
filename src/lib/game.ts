@@ -8,8 +8,6 @@ export interface Position {
 // Export refences to images
 export const wumpusImage = new Image()
 export const goldImage = new Image()
-export const stenchImage = new Image()
-export const breezeImage = new Image()
 export const agentImage = new Array<HTMLImageElement>()
 
 // TODO: Populate this with a default configuration
@@ -25,17 +23,17 @@ export const generateStage = (rawStageInput: string) => {
 export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
   // ? Test Stuff
   const testPos: Position = { y: canvasDimension / 2, x: canvasDimension / 2 }
-  const testSlot = new Slot(SlotType.WUMPUS, testPos)
+  const testSlot = new Slot(SlotType.GOLD, testPos)
 
   testSlot.isHidden = false
   testSlot.hasStench = false
-  testSlot.hasBreeze = false
+  testSlot.hasBreeze = true
   // ? Test Stuff
+
+  ctx.font = "bold 18px sans"
 
   // * Load images
   wumpusImage.src = "/wumpus.png"
-  breezeImage.src = "/breeze.png"
-  stenchImage.src = "/stench.png"
   goldImage.src = "/goldbricks.svg"
 
   for (let i = 0; i < 4; i++) {
@@ -45,7 +43,7 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
 
   // * Wait for all images to load
   await Promise.all(
-    [wumpusImage, breezeImage, stenchImage, goldImage, ...agentImage].map(
+    [wumpusImage, goldImage, ...agentImage].map(
       image =>
         new Promise<void>(resolve => {
           image.addEventListener("load", () => {
