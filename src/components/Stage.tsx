@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react"
-import { chakra, Center } from "@chakra-ui/react"
+import { Center } from "@chakra-ui/react"
 import { initGameLoop } from "../lib/gameLoop"
-
-interface StageProps {}
+import { useSimulation } from "../contexts/Simulation"
 
 export const Stage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -22,7 +21,7 @@ export const Stage = () => {
 
   return (
     <Center flex={3} h="100%" ref={containerRef}>
-      <chakra.canvas ref={canvasRef}></chakra.canvas>
+      <canvas ref={canvasRef} />
     </Center>
   )
 }

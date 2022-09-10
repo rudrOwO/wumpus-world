@@ -1,11 +1,11 @@
-import { chakra, Image, Center, Text } from "@chakra-ui/react"
+import { Image, Center, Text, Box } from "@chakra-ui/react"
 import { PlayPauseButton } from "./PlayPauseButton"
 import { StepForwardButton } from "./StepForwardButton"
 import { GithubButton } from "./GithubButton"
 
 export const ControlPanel = () => {
   return (
-    <chakra.nav
+    <Box
       shadow="xl"
       padding="5px"
       fontSize="lg"
@@ -16,6 +16,7 @@ export const ControlPanel = () => {
       display="flex"
       alignItems="center"
       justifyContent="space-between"
+      position="sticky"
     >
       <Center>
         <Image src="wumpus.png" h="5vh" mr="3" />
@@ -26,6 +27,6 @@ export const ControlPanel = () => {
         <StepForwardButton />
       </Center>
       <GithubButton />
-    </chakra.nav>
+    </Box>
   )
 }

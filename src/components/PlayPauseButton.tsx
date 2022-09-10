@@ -14,7 +14,7 @@ export const PlayPauseButton = () => {
 
   return (
     <PanelButton onClick={handleClick} toolTip={isTipped ? "" : "Play/Pause Simulation"}>
-      {isPlaying ? <RiPauseCircleLine size="90%" /> : <RiPlayCircleLine size="90%" />}
+      {isPlaying ? <RiPauseCircleLine size="85%" /> : <RiPlayCircleLine size="85%" />}
     </PanelButton>
   )
 }
