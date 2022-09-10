@@ -1,4 +1,4 @@
-import { Position } from "./game"
+import { Position, wumpusImage, stenchImage, breezeImage, goldImage } from "./game"
 
 export enum SlotType {
   SAFE, // S
@@ -20,17 +20,17 @@ export class Slot {
     this.renderLocation = renderLocation
   }
 
-  drawToCanvas(ctx: CanvasRenderingContext2D, scale: number) {
+  public drawTile(ctx: CanvasRenderingContext2D, scale: number) {
     if (this.type === SlotType.PIT) {
       // Draw nothing for a pit
       return
     }
 
-    const { x, y } = { ...this.renderLocation }
-
     if (this.isHidden) {
-      ctx.globalAlpha = 0.5
+      ctx.globalAlpha = 0.6
     }
+
+    const { x, y } = { ...this.renderLocation }
 
     ctx.fillStyle = "#4a5568"
 
@@ -65,7 +65,44 @@ export class Slot {
     ctx.fill()
     ctx.stroke()
 
-    // TODO: Handle drawing Gold & Wumpus
+    ctx.globalAlpha = 1
+  }
+
+  private drawWumpus(ctx: CanvasRenderingContext2D, scale: number) {
+    const { x, y } = { ...this.renderLocation }
+
+    ctx.drawImage(
+      wumpusImage,
+      x - scale * Math.SQRT1_2 * 0.75,
+      y - scale * Math.SQRT2 * 0.7,
+      scale * Math.SQRT2 * 0.8,
+      scale * Math.SQRT2 * 0.8
+    )
+  }
+
+  private drawGold(ctx: CanvasRenderingContext2D, scale: number) {
+    const { x, y } = { ...this.renderLocation }
+  }
+
+  private drawSenses(ctx: CanvasRenderingContext2D, scale: number) {}
+
+  drawEnvironmentVariable(ctx: CanvasRenderingContext2D, scale: number) {
+    if (this.isHidden) {
+      ctx.globalAlpha = 0.6
+    }
+
+    if (this.type === SlotType.WUMPUS) {
+      this.drawWumpus(ctx, scale)
+      return
+    }
+
+    if (this.type === SlotType.GOLD) {
+      this.drawGold(ctx, scale)
+      return
+    }
+
+    this.drawSenses(ctx, scale) // Always draw indicators on a safe Tile
+
     ctx.globalAlpha = 1
   }
 }

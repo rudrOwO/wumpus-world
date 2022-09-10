@@ -1,4 +1,4 @@
-import { Position } from "./game"
+import { Position, agentImage } from "./game"
 
 // * Defined in clockwise fasion
 enum Direction {
