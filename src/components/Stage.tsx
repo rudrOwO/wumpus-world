@@ -6,11 +6,20 @@ import { UploadStageButton } from "./UploadStageButton"
 import { UploadStageModal } from "./UploadStageModal"
 
 export const Stage = () => {
-  // TODO: Populate this with a default configuration
-  const [rawCSV, setRawCSV] = useState("")
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const [rawCSV, setRawCSV] = useState(`
+    S,S,S,S,S,S,S,S,S,S,
+    P,S,S,S,S,S,S,S,P,S,
+    S,S,S,S,W,S,S,S,S,S,
+    S,S,S,S,S,S,S,S,S,S,
+    S,S,P,S,S,S,S,S,S,S,
+    S,S,S,S,S,G,S,S,S,S,
+    S,S,S,S,S,S,S,S,W,S,
+    S,S,S,S,S,S,S,S,S,S,
+    S,S,P,S,S,S,W,S,S,S,
+    S,S,S,S,S,S,S,S,S,S, 
+  `)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
@@ -34,7 +43,7 @@ export const Stage = () => {
   }, [])
 
   useEffect(() => {
-    generateStage(rawCSV)
+    generateStage(rawCSV, canvasDimension.current)
     runGameLoop(canvasContext.current!, canvasDimension.current)
 
     // TODO Cleanup Animation Frame

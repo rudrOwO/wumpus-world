@@ -12,9 +12,32 @@ export const agentImage = new Array<HTMLImageElement>()
 
 let stage: Slot[][] = []
 
-export const generateStage = (rawCSV: string) => {
-  // TODO: Parse Raw input and generate Array<Slot>
-  console.log("Raw CSV", rawCSV)
+export const generateStage = (rawCSV: string, canvasDimension: number) => {
+  // * Raw String to array of 'S' | 'W' | 'A' | 'P' | 'G'
+  // const normalizedCSV: Array<Array<"S" | "W" | "A" | "P" | "G">> = []
+
+  rawCSV.replace(/[, \n]/, "")
+  console.log(rawCSV)
+
+  return
+
+  const scale = canvasDimension / 12
+  const newStage: Slot[][] = []
+  const initalPos: Position = { x: scale, y: canvasDimension / 2 }
+
+  for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < 10; x++) {
+      newStage[y][x] = new Slot(SlotType[rawCSV[10 * y + x]], {
+        x: initalPos.x + x * scale,
+        y: initalPos.y + x * scale * 0.5,
+      })
+    }
+
+    initalPos.x += scale
+    initalPos.y -= scale / 2
+  }
+
+  stage = newStage
 }
 
 export const loadGameAssets = async (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
@@ -44,7 +67,7 @@ export const loadGameAssets = async (ctx: CanvasRenderingContext2D, canvasDimens
 export const runGameLoop = (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
   // ! Test Stuff
   const testPos = { y: canvasDimension / 2, x: canvasDimension / 2 }
-  const testSlot = new Slot(SlotType.GOLD, testPos)
+  const testSlot = new Slot(SlotType.W, testPos)
 
   testSlot.isHidden = false
   testSlot.hasStench = false

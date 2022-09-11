@@ -1,10 +1,10 @@
 import { Position, wumpusImage, goldImage } from "./game"
 
 export enum SlotType {
-  SAFE, // S
-  WUMPUS, // W
-  PIT, // P
-  GOLD, // G
+  S, // Safe
+  W, // Wumpus
+  P, // Pot
+  G, // Gold
 }
 
 export class Slot {
@@ -22,7 +22,7 @@ export class Slot {
   }
 
   public drawTile(ctx: CanvasRenderingContext2D, scale: number) {
-    if (this.type === SlotType.PIT) {
+    if (this.type === SlotType.P) {
       // Draw nothing for a pit
       return
     }
@@ -118,17 +118,17 @@ export class Slot {
       ctx.globalAlpha = Slot.hiddenOpacity
     }
 
-    if (this.type === SlotType.WUMPUS) {
+    if (this.type === SlotType.W) {
       this.drawWumpus(ctx, scale * 0.75)
       return
     }
 
-    if (this.type === SlotType.GOLD) {
+    if (this.type === SlotType.G) {
       this.drawGold(ctx, scale * 0.9)
       return
     }
 
-    if (this.type !== SlotType.PIT) {
+    if (this.type !== SlotType.P) {
       this.drawSenses(ctx, scale)
     }
 
