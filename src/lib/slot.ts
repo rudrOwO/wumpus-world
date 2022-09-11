@@ -10,7 +10,7 @@ export enum SlotType {
 export class Slot {
   readonly type: number
   readonly renderLocation: Position
-  static readonly hiddenOpacity = 0.6
+  static readonly hiddenOpacity = 0.33
 
   isHidden = true
   hasStench = false
@@ -48,23 +48,25 @@ export class Slot {
     ctx.fillStyle = "#2d3748"
 
     // * Draw Shadow of Isometric Tile
-    ctx.beginPath()
-    ctx.moveTo(x - scale, y)
-    ctx.lineTo(x - scale, y + scale / 5)
-    ctx.lineTo(x, y + scale / 2 + scale / 5)
-    ctx.lineTo(x, y + scale / 2)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
+    if (!this.isHidden) {
+      ctx.beginPath()
+      ctx.moveTo(x - scale, y)
+      ctx.lineTo(x - scale, y + scale / 5)
+      ctx.lineTo(x, y + scale / 2 + scale / 5)
+      ctx.lineTo(x, y + scale / 2)
+      ctx.closePath()
+      ctx.fill()
+      ctx.stroke()
 
-    ctx.beginPath()
-    ctx.moveTo(x + scale, y)
-    ctx.lineTo(x + scale, y + scale / 5)
-    ctx.lineTo(x, y + scale / 2 + scale / 5)
-    ctx.lineTo(x, y + scale / 2)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(x + scale, y)
+      ctx.lineTo(x + scale, y + scale / 5)
+      ctx.lineTo(x, y + scale / 2 + scale / 5)
+      ctx.lineTo(x, y + scale / 2)
+      ctx.closePath()
+      ctx.fill()
+      ctx.stroke()
+    }
 
     ctx.globalAlpha = 1
   }

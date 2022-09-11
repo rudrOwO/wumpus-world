@@ -9,7 +9,7 @@ export const Stage = () => {
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [rawCSV, setRawCSV] = useState(`
-    S,S,S,S,S,S,S,S,S,S,
+    W,S,S,S,S,S,S,S,S,S,
     P,S,S,S,S,S,S,S,P,S,
     S,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,
@@ -23,28 +23,28 @@ export const Stage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
-  const canvasDimension = useRef<number>(-1)
+  const minDimension = useRef<number>(-1)
 
   useEffect(() => {
     // Setting convas co-ordinate system to containing loyout element
     const canvas = canvasRef.current!
     const container = containerRef.current!
 
-    canvasDimension.current = Math.min(container.clientHeight, container.clientWidth)
+    minDimension.current = Math.min(container.clientHeight, container.clientWidth)
     canvasContext.current = canvas.getContext("2d")!
 
-    canvas.width = canvasDimension.current
-    canvas.height = canvasDimension.current
+    canvas.width = container.clientWidth
+    canvas.height = container.clientHeight
 
-    loadGameAssets(canvasContext.current, canvasDimension.current).then(_ => {
+    loadGameAssets(canvasContext.current, minDimension.current).then(_ => {
       // * Run the loop once to draw stuff on the screen
-      runGameLoop(canvasContext.current!, canvasDimension.current)
+      runGameLoop(canvasContext.current!, minDimension.current)
     })
   }, [])
 
   useEffect(() => {
-    generateStage(rawCSV, canvasDimension.current)
-    runGameLoop(canvasContext.current!, canvasDimension.current)
+    generateStage(rawCSV, minDimension.current)
+    runGameLoop(canvasContext.current!, minDimension.current)
 
     // TODO Cleanup Animation Frame
   }, [isPlaying, rawCSV])
