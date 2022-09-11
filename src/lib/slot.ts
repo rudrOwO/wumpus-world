@@ -1,4 +1,4 @@
-import { Position, wumpusImage, goldImage } from "./game"
+import { Position, wumpusImage, goldImage, fontSize } from "./game"
 
 export enum SlotType {
   S, // Safe
@@ -21,7 +21,7 @@ export class Slot {
     this.renderLocation = renderLocation
   }
 
-  public drawTile(ctx: CanvasRenderingContext2D, scale: number) {
+  public drawTile(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.type === SlotType.P) {
       // Draw nothing for a pit
       return
@@ -37,10 +37,10 @@ export class Slot {
 
     // * Draw Isometric Tile
     ctx.beginPath()
-    ctx.moveTo(x, y - scale / 2)
-    ctx.lineTo(x + scale, y)
-    ctx.lineTo(x, y + scale / 2)
-    ctx.lineTo(x - scale, y)
+    ctx.moveTo(x, y - unit / 2)
+    ctx.lineTo(x + unit, y)
+    ctx.lineTo(x, y + unit / 2)
+    ctx.lineTo(x - unit, y)
     ctx.closePath()
     ctx.fill()
     ctx.stroke()
@@ -50,19 +50,19 @@ export class Slot {
     // * Draw Shadow of Isometric Tile
     if (!this.isHidden) {
       ctx.beginPath()
-      ctx.moveTo(x - scale, y)
-      ctx.lineTo(x - scale, y + scale / 5)
-      ctx.lineTo(x, y + scale / 2 + scale / 5)
-      ctx.lineTo(x, y + scale / 2)
+      ctx.moveTo(x - unit, y)
+      ctx.lineTo(x - unit, y + unit / 5)
+      ctx.lineTo(x, y + unit / 2 + unit / 5)
+      ctx.lineTo(x, y + unit / 2)
       ctx.closePath()
       ctx.fill()
       ctx.stroke()
 
       ctx.beginPath()
-      ctx.moveTo(x + scale, y)
-      ctx.lineTo(x + scale, y + scale / 5)
-      ctx.lineTo(x, y + scale / 2 + scale / 5)
-      ctx.lineTo(x, y + scale / 2)
+      ctx.moveTo(x + unit, y)
+      ctx.lineTo(x + unit, y + unit / 5)
+      ctx.lineTo(x, y + unit / 2 + unit / 5)
+      ctx.lineTo(x, y + unit / 2)
       ctx.closePath()
       ctx.fill()
       ctx.stroke()
@@ -71,67 +71,71 @@ export class Slot {
     ctx.globalAlpha = 1
   }
 
-  private drawWumpus(ctx: CanvasRenderingContext2D, scale: number) {
+  private drawWumpus(ctx: CanvasRenderingContext2D, unit: number) {
     const { x, y } = { ...this.renderLocation }
 
     ctx.drawImage(
       wumpusImage,
-      x - scale * Math.SQRT1_2,
-      y - scale * Math.SQRT2 * 0.9,
-      scale * Math.SQRT2,
-      scale * Math.SQRT2
+      x - unit * Math.SQRT1_2,
+      y - unit * Math.SQRT2 * 0.9,
+      unit * Math.SQRT2,
+      unit * Math.SQRT2
     )
   }
 
-  private drawGold(ctx: CanvasRenderingContext2D, scale: number) {
+  private drawGold(ctx: CanvasRenderingContext2D, unit: number) {
     const { x, y } = { ...this.renderLocation }
 
     ctx.drawImage(
       goldImage,
-      x - scale * Math.SQRT1_2,
-      y - scale * 0.9,
-      scale * Math.SQRT2,
-      scale * Math.SQRT2
+      x - unit * Math.SQRT1_2,
+      y - unit * 0.9,
+      unit * Math.SQRT2,
+      unit * Math.SQRT2
     )
   }
 
-  private drawSenses(ctx: CanvasRenderingContext2D, scale: number) {
+  private drawSenses(ctx: CanvasRenderingContext2D, unit: number) {
     const { x, y } = { ...this.renderLocation }
 
     // Transforming Matrix for writing skewed Text
-    ctx.translate(x - scale, y + 20)
+    ctx.translate(x - unit, y)
     ctx.rotate(-0.463647609) // arctan(1 / 2)
+    ctx.translate(1.5 * fontSize, 1.5 * fontSize)
     ctx.fillStyle = "black"
 
     if (this.hasStench) {
-      ctx.fillText("STENCH", 28, 4)
+      ctx.fillText("STENCH", 0, 0)
     }
 
+    ctx.translate(fontSize, fontSize)
+    // ctx.translate()
+
     if (this.hasBreeze) {
-      ctx.fillText("BREEZE", 56, 35)
+      ctx.fillText("BREEZE", 0, 0)
     }
 
     // Resetting Transformer to identity matrix
     ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
-  drawEnvironmentVariable(ctx: CanvasRenderingContext2D, scale: number) {
+  drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.isHidden) {
       ctx.globalAlpha = Slot.hiddenOpacity
     }
 
     if (this.type === SlotType.W) {
-      this.drawWumpus(ctx, scale * 0.75)
+      this.drawWumpus(ctx, unit * 0.7)
       return
     }
 
     if (this.type === SlotType.G) {
-      this.drawGold(ctx, scale * 0.9)
+      this.drawGold(ctx, unit * 0.9)
       return
     }
 
     if (this.type !== SlotType.P) {
-      this.drawSenses(ctx, scale)
+      this.drawSenses(ctx, unit)
     }
 
     ctx.globalAlpha = 1

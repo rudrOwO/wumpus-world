@@ -8,12 +8,13 @@ interface Props {
 export const UploadStageButton = ({ onOpen }: Props) => (
   <Button
     position="absolute"
-    left={["75%", "75%", "85%"]}
-    top="90vh"
+    left="3vw"
+    top="88vh"
     colorScheme="unstyled"
     bg="gray.600"
     borderRadius="xl"
     size="lg"
+    p="35px"
     onClick={onOpen}
     _hover={{
       background: "gray.700",
