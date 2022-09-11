@@ -1,12 +1,16 @@
-import { useEffect, useRef } from "react"
-import { Center } from "@chakra-ui/react"
-import { initGame } from "../lib/game"
+import { useEffect, useRef, useState } from "react"
+import { Center, useDisclosure } from "@chakra-ui/react"
+import { generateStage, initGame } from "../lib/game"
 import { useSimulation } from "../contexts/Simulation"
+import { UploadStageButton } from "./UploadStageButton"
+import { UploadStageModal } from "./UploadStageModal"
 
 export const Stage = () => {
+  const [rawCSV, setRawCSV] = useState("")
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const { isPlaying } = useSimulation()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     // Setting convas co-ordinate system to containing loyout element
@@ -17,16 +21,22 @@ export const Stage = () => {
     canvas.width = canvasDimension
     canvas.height = canvasDimension
 
+    generateStage(rawCSV)
     initGame(canvas.getContext("2d")!, canvasDimension)
-  }, [])
+  }, [rawCSV])
 
   useEffect(() => {
     // TODO Call loopGame() here
   }, [isPlaying])
 
   return (
-    <Center flex={3} h="100%" ref={containerRef}>
-      <canvas ref={canvasRef} />
-    </Center>
+    <>
+      <UploadStageButton onOpen={onOpen} />
+      <UploadStageModal isOpen={isOpen} onClose={onClose} setRawCSV={setRawCSV} />
+
+      <Center flex={3} h="100%" ref={containerRef}>
+        <canvas ref={canvasRef} />
+      </Center>
+    </>
   )
 }

@@ -11,13 +11,11 @@ export const goldImage = new Image()
 export const agentImage = new Array<HTMLImageElement>()
 
 // TODO: Populate this with a default configuration
-const stage: Array<Slot> = []
+const stage: Slot[][] = []
 
-export const generateStage = (rawStageInput: string) => {
-  // if (stage.length > 0) {
-  //   return
-  // }
+export const generateStage = (rawCSV: string) => {
   // TODO: Parse Raw input and generate Array<Slot>
+  console.log("Raw CSV", rawCSV)
 }
 
 export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
@@ -29,8 +27,6 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
   testSlot.hasStench = false
   testSlot.hasBreeze = true
   // ? Test Stuff
-
-  ctx.font = "bold 18px sans"
 
   // * Load images
   wumpusImage.src = "/wumpus.png"
@@ -52,6 +48,8 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
         })
     )
   )
+
+  ctx.font = "bold 18px sans"
 
   // * Loops for drawing the stage ~ Uses Painter's Algorithm
   testSlot.drawTile(ctx, canvasDimension / 12)
