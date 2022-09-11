@@ -1,33 +1,44 @@
 import { useEffect, useRef, useState } from "react"
 import { Center, useDisclosure } from "@chakra-ui/react"
-import { generateStage, initGame } from "../lib/game"
+import { generateStage, loadGameAssets, runGameLoop } from "../lib/game"
 import { useSimulation } from "../contexts/Simulation"
 import { UploadStageButton } from "./UploadStageButton"
 import { UploadStageModal } from "./UploadStageModal"
 
 export const Stage = () => {
+  // TODO: Populate this with a default configuration
   const [rawCSV, setRawCSV] = useState("")
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
+  const canvasDimension = useRef<number>(-1)
 
   useEffect(() => {
     // Setting convas co-ordinate system to containing loyout element
     const canvas = canvasRef.current!
     const container = containerRef.current!
-    const canvasDimension = Math.min(container.clientHeight, container.clientWidth)
 
-    canvas.width = canvasDimension
-    canvas.height = canvasDimension
+    canvasDimension.current = Math.min(container.clientHeight, container.clientWidth)
+    canvasContext.current = canvas.getContext("2d")!
 
-    generateStage(rawCSV)
-    initGame(canvas.getContext("2d")!, canvasDimension)
-  }, [rawCSV])
+    canvas.width = canvasDimension.current
+    canvas.height = canvasDimension.current
+
+    loadGameAssets(canvasContext.current, canvasDimension.current).then(_ => {
+      // * Run the loop once to draw stuff on the screen
+      runGameLoop(canvasContext.current!, canvasDimension.current)
+    })
+  }, [])
 
   useEffect(() => {
-    // TODO Call loopGame() here
-  }, [isPlaying])
+    generateStage(rawCSV)
+    runGameLoop(canvasContext.current!, canvasDimension.current)
+
+    // TODO Cleanup Animation Frame
+  }, [isPlaying, rawCSV])
 
   return (
     <>

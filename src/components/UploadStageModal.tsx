@@ -46,7 +46,7 @@ export const UploadStageModal = ({ isOpen, onClose, setRawCSV }: ModalProps) => 
               <strong>Legends: </strong>
               <code> A - Agent, G - Gold, W - Wumpus, P - Pit, S - Safe </code>
               <br />
-              <strong>Co-Orginate System: </strong>
+              <strong>Co-Ordinate System: </strong>
               Top left character denotes (0, 0)
             </Box>
             <chakra.textarea
@@ -67,7 +67,15 @@ export const UploadStageModal = ({ isOpen, onClose, setRawCSV }: ModalProps) => 
             <Button colorScheme="red" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" colorScheme="unstyled" bg="gray.600" onClick={onClose}>
+            <Button
+              type="submit"
+              colorScheme="unstyled"
+              _hover={{
+                background: "gray.700",
+              }}
+              bg="gray.600"
+              onClick={onClose}
+            >
               Upload
             </Button>
           </ModalFooter>

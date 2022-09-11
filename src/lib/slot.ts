@@ -10,6 +10,7 @@ export enum SlotType {
 export class Slot {
   readonly type: number
   readonly renderLocation: Position
+  static readonly hiddenOpacity = 0.6
 
   isHidden = true
   hasStench = false
@@ -27,7 +28,7 @@ export class Slot {
     }
 
     if (this.isHidden) {
-      ctx.globalAlpha = 0.6
+      ctx.globalAlpha = Slot.hiddenOpacity
     }
 
     const { x, y } = { ...this.renderLocation }
@@ -114,7 +115,7 @@ export class Slot {
 
   drawEnvironmentVariable(ctx: CanvasRenderingContext2D, scale: number) {
     if (this.isHidden) {
-      ctx.globalAlpha = 0.6
+      ctx.globalAlpha = Slot.hiddenOpacity
     }
 
     if (this.type === SlotType.WUMPUS) {

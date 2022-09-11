@@ -15,7 +15,7 @@ export const PanelButton = (props: NavButtonProps) => {
     <Tooltip hasArrow label={toolTipMessage} fontSize="md">
       <IconButton
         disabled={disabled}
-        size="md"
+        size="lg"
         marginX="1px"
         marginY={-1}
         colorScheme="unstyled"

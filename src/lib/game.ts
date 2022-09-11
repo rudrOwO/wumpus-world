@@ -10,25 +10,14 @@ export const wumpusImage = new Image()
 export const goldImage = new Image()
 export const agentImage = new Array<HTMLImageElement>()
 
-// TODO: Populate this with a default configuration
-const stage: Slot[][] = []
+let stage: Slot[][] = []
 
 export const generateStage = (rawCSV: string) => {
   // TODO: Parse Raw input and generate Array<Slot>
   console.log("Raw CSV", rawCSV)
 }
 
-export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
-  // ? Test Stuff
-  const testPos: Position = { y: canvasDimension / 2, x: canvasDimension / 2 }
-  const testSlot = new Slot(SlotType.GOLD, testPos)
-
-  testSlot.isHidden = false
-  testSlot.hasStench = false
-  testSlot.hasBreeze = true
-  // ? Test Stuff
-
-  // * Load images
+export const loadGameAssets = async (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
   wumpusImage.src = "/wumpus.png"
   goldImage.src = "/goldbricks.svg"
 
@@ -50,10 +39,19 @@ export const initGame = async (ctx: CanvasRenderingContext2D, canvasDimension: n
   )
 
   ctx.font = "bold 18px sans"
+}
+
+export const runGameLoop = (ctx: CanvasRenderingContext2D, canvasDimension: number) => {
+  // ! Test Stuff
+  const testPos = { y: canvasDimension / 2, x: canvasDimension / 2 }
+  const testSlot = new Slot(SlotType.GOLD, testPos)
+
+  testSlot.isHidden = false
+  testSlot.hasStench = false
+  testSlot.hasBreeze = true
+  // ! Test Stuff
 
   // * Loops for drawing the stage ~ Uses Painter's Algorithm
   testSlot.drawTile(ctx, canvasDimension / 12)
   testSlot.drawEnvironmentVariable(ctx, canvasDimension / 12)
 }
-
-export const loopGame = () => {}

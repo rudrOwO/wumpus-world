@@ -1,5 +1,5 @@
 import { MdPostAdd } from "react-icons/md"
-import { Button, Text } from "@chakra-ui/react"
+import { Button, Flex, Text } from "@chakra-ui/react"
 
 interface Props {
   onOpen: () => void
@@ -19,9 +19,11 @@ export const UploadStageButton = ({ onOpen }: Props) => (
       background: "gray.700",
     }}
   >
-    <MdPostAdd fontSize="30px" />
-    <Text display={["none", "none", "inline"]} fontSize="xl" ml="10px" mt="5px">
-      CSV
-    </Text>
+    <Flex alignItems={"center"}>
+      <MdPostAdd fontSize="32px" />
+      <Text display={["none", "none", "inline"]} fontSize="2xl" ml="10px" mt="6px">
+        CSV
+      </Text>
+    </Flex>
   </Button>
 )
