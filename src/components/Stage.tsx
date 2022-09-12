@@ -19,8 +19,8 @@ export const Stage = () => {
     S,S,S,S,S,S,S,S,W,S,
     S,S,P,S,S,S,S,S,S,S,
     S,S,P,S,S,S,W,S,S,S,
-    S,S,S,S,S,S,S,S,P,P, 
-  `.replace(/[^SWAPG]/g, "") // Sanitized with Regex
+    G,S,S,S,S,S,S,S,P,P, 
+  `.replace(/[^SWAPG]/g, "") // Sanitized input to remove unwanted characters
   )
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -46,11 +46,9 @@ export const Stage = () => {
   }, [])
 
   useEffect(() => {
+    //@ts-ignore
     generateStage(environment, canvasUnit.current)
     runGameLoop(canvasContext.current!, canvasUnit.current)
-
-    // TODO Cleanup Animation Frame
-    // TODO Clear Canvas on cleanup
   }, [isPlaying, environment])
 
   return (

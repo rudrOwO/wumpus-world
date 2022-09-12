@@ -12,7 +12,7 @@ export const wumpusImage = new Image()
 export const goldImage = new Image()
 export const agentImage = new Array<HTMLImageElement>()
 
-export const generateStage = (rawCSV: string, unit: number) => {
+export const generateStage = (environment: Array<EnvironmentVariable>, unit: number) => {
   fontSize = Math.sqrt(unit * unit * (5 / 4)) / 5
   const newStage: Slot[][] = []
   const initalPos: Position = { x: 10 * unit, y: unit / 2 }
@@ -22,7 +22,7 @@ export const generateStage = (rawCSV: string, unit: number) => {
 
     for (let x = 0; x < 10; x++) {
       newStage[y].push(
-        new Slot(rawCSV[10 * y + x] as EnvironmentVariable, {
+        new Slot(environment[10 * y + x], {
           // +x for Isometric X Axis
           x: initalPos.x + x * unit,
           y: initalPos.y + x * unit * 0.5,

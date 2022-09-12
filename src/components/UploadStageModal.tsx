@@ -40,14 +40,11 @@ export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps
 
         <form onSubmit={formik.handleSubmit}>
           <ModalBody>
-            <Box mb="10px">
+            <Box mb="15px">
               10 comma-separated rows of 10 letters each (for a 10X10 grid)
               <br />
               <strong>Legends: </strong>
               <code> A - Agent, G - Gold, W - Wumpus, P - Pit, S - Safe </code>
-              <br />
-              <strong>Co-Ordinate System: </strong>
-              Top left character denotes (0, 0)
             </Box>
             <chakra.textarea
               rows={10}

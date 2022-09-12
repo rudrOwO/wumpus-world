@@ -13,13 +13,28 @@ export class Slot {
   readonly renderLocation: Position
   static readonly filterString = "grayscale(75%)"
 
-  isHidden = true
-  hasStench = false
-  hasBreeze = false
+  public isHidden = true
+  public hasStench = false
+  public hasBreeze = false
 
   constructor(type: EnvironmentVariable, renderLocation: Position) {
     this.type = type
     this.renderLocation = renderLocation
+  }
+
+  private static drawIsometricShape(
+    ctx: CanvasRenderingContext2D,
+    x: Array<number>,
+    y: Array<number>
+  ) {
+    ctx.beginPath()
+    ctx.moveTo(x[0], y[0])
+    ctx.lineTo(x[1], y[1])
+    ctx.lineTo(x[2], y[2])
+    ctx.lineTo(x[3], y[3])
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
   }
 
   public drawTile(ctx: CanvasRenderingContext2D, unit: number) {
@@ -30,40 +45,24 @@ export class Slot {
     if (this.isHidden) {
       ctx.filter = Slot.filterString
     }
-
     const { x, y } = { ...this.renderLocation }
-    ctx.fillStyle = "#4a5568"
 
     // * Draw Isometric Tile
-    ctx.beginPath()
-    ctx.moveTo(x, y - unit / 2)
-    ctx.lineTo(x + unit, y)
-    ctx.lineTo(x, y + unit / 2)
-    ctx.lineTo(x - unit, y)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
-
-    ctx.fillStyle = "#2d3748"
+    ctx.fillStyle = "#4a5568"
+    Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     // * Draw Shadow of Isometric Tile
-    ctx.beginPath()
-    ctx.moveTo(x - unit, y)
-    ctx.lineTo(x - unit, y + unit / 4)
-    ctx.lineTo(x, y + unit / 2 + unit / 4)
-    ctx.lineTo(x, y + unit / 2)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.moveTo(x + unit, y)
-    ctx.lineTo(x + unit, y + unit / 4)
-    ctx.lineTo(x, y + unit / 2 + unit / 4)
-    ctx.lineTo(x, y + unit / 2)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
+    ctx.fillStyle = "#2d3748"
+    Slot.drawIsometricShape(
+      ctx,
+      [x - unit, x - unit, x, x],
+      [y, y + unit / 4, y + unit / 2 + unit / 4, y + unit / 2]
+    )
+    Slot.drawIsometricShape(
+      ctx,
+      [x + unit, x + unit, x, x],
+      [y, y + unit / 4, y + unit / 2 + unit / 4, y + unit / 2]
+    )
 
     ctx.filter = "none"
   }
@@ -87,18 +86,11 @@ export class Slot {
     if (this.isHidden) {
       ctx.filter = Slot.filterString
     }
+    let { x, y } = { ...this.renderLocation }
+    y += unit / 4 // Offset for pseudo height
 
-    const { x, y } = { ...this.renderLocation }
     ctx.fillStyle = "#cd3132"
-
-    // * Draw Isometric Pit
-    ctx.beginPath()
-    ctx.moveTo(x, y - unit / 2)
-    ctx.lineTo(x + unit, y)
-    ctx.lineTo(x, y + unit / 2)
-    ctx.lineTo(x - unit, y)
-    ctx.closePath()
-    ctx.fill()
+    Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     ctx.filter = "none"
   }
@@ -134,7 +126,7 @@ export class Slot {
     ctx.setTransform(1, 0, 0, 1, 0, 0) // Resetting Transformer to identity matrix
   }
 
-  drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
+  public drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.isHidden) {
       ctx.filter = Slot.filterString
     }
