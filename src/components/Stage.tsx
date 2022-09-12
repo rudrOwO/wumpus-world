@@ -8,18 +8,20 @@ import { UploadStageModal } from "./UploadStageModal"
 export const Stage = () => {
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [rawCSV, setRawCSV] = useState(`
+  const [environment, setEnvironment] = useState(
+    `
     S,W,S,W,S,S,S,S,S,S,
     P,S,S,S,S,S,S,S,P,S,
-    S,S,S,S,W,S,S,S,S,S,
+    P,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,
     S,S,P,S,S,S,S,S,S,S,
     S,S,S,S,S,G,S,S,S,S,
     S,S,S,S,S,S,S,S,W,S,
-    S,S,S,S,S,S,S,S,S,S,
+    S,S,P,S,S,S,S,S,S,S,
     S,S,P,S,S,S,W,S,S,S,
-    S,S,S,S,S,S,S,S,S,P, 
-  `)
+    S,S,S,S,S,S,S,S,P,P, 
+  `.replace(/[^SWAPG]/g, "") // Sanitized with Regex
+  )
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
@@ -34,9 +36,8 @@ export const Stage = () => {
 
     // Setting 2:1 Aspect Ratio for the canvas
     canvas.width = Math.max(container.clientHeight, container.clientWidth)
-    canvas.height = canvas.width / 2
-
-    canvasUnit.current = canvas.height / 10
+    canvasUnit.current = canvas.width / 20
+    canvas.height = canvas.width / 2 + canvasUnit.current / 4
 
     loadGameAssets(canvasContext.current).then(_ => {
       // * Run the loop once to draw stuff on the screen
@@ -45,12 +46,12 @@ export const Stage = () => {
   }, [])
 
   useEffect(() => {
-    generateStage(rawCSV, canvasUnit.current)
+    generateStage(environment, canvasUnit.current)
     runGameLoop(canvasContext.current!, canvasUnit.current)
 
     // TODO Cleanup Animation Frame
     // TODO Clear Canvas on cleanup
-  }, [isPlaying, rawCSV])
+  }, [isPlaying, environment])
 
   return (
     <>
@@ -58,7 +59,7 @@ export const Stage = () => {
         <canvas ref={canvasRef} />
       </Center>
       <UploadStageButton onOpen={onOpen} />
-      <UploadStageModal isOpen={isOpen} onClose={onClose} setRawCSV={setRawCSV} />
+      <UploadStageModal isOpen={isOpen} onClose={onClose} setEnvironment={setEnvironment} />
     </>
   )
 }

@@ -14,8 +14,6 @@ export const agentImage = new Array<HTMLImageElement>()
 
 export const generateStage = (rawCSV: string, unit: number) => {
   fontSize = Math.sqrt(unit * unit * (5 / 4)) / 5
-
-  const charGrid = rawCSV.replace(/[^SWAPG]/g, "") // Sanitizing Raw CSV String
   const newStage: Slot[][] = []
   const initalPos: Position = { x: 10 * unit, y: unit / 2 }
 
@@ -24,7 +22,7 @@ export const generateStage = (rawCSV: string, unit: number) => {
 
     for (let x = 0; x < 10; x++) {
       newStage[y].push(
-        new Slot(charGrid[10 * y + x] as EnvironmentVariable, {
+        new Slot(rawCSV[10 * y + x] as EnvironmentVariable, {
           // +x for Isometric X Axis
           x: initalPos.x + x * unit,
           y: initalPos.y + x * unit * 0.5,
@@ -68,6 +66,7 @@ export const runGameLoop = (ctx: CanvasRenderingContext2D, unit: number) => {
 
   // ! Test Stuff
   stage[0][0].isHidden = false
+  stage[1][0].isHidden = false
   stage[0][0].hasBreeze = true
   stage[0][0].hasStench = true
 
@@ -76,16 +75,25 @@ export const runGameLoop = (ctx: CanvasRenderingContext2D, unit: number) => {
   stage[0][3].isHidden = false
   stage[0][4].isHidden = false
   stage[0][5].isHidden = false
-  stage[1][0].isHidden = false
+  stage[1][8].isHidden = false
   // ! Test Stuff
 
   // * Loops for drawing the stage ~ Uses Painter's Algorithm
+  // 1 Draw Pits
+  for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < 10; x++) {
+      stage[y][x].drawPit(ctx, unit)
+    }
+  }
+
+  // 2 Draw Safe Tiles
   for (let y = 0; y < 10; y++) {
     for (let x = 0; x < 10; x++) {
       stage[y][x].drawTile(ctx, unit)
     }
   }
 
+  // 3 Draw Other Environment Variables
   for (let y = 0; y < 10; y++) {
     for (let x = 0; x < 10; x++) {
       stage[y][x].drawEnvironmentVariable(ctx, unit)

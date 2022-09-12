@@ -9,9 +9,9 @@ import { Position, wumpusImage, goldImage, fontSize } from "./game"
 export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
-  readonly type: EnvironmentVariable
+  readonly type: EnvironmentVariable = "S"
   readonly renderLocation: Position
-  static readonly hiddenOpacity = 0.33
+  static readonly filterString = "grayscale(75%)"
 
   isHidden = true
   hasStench = false
@@ -27,13 +27,11 @@ export class Slot {
       // Draw nothing for a pit
       return
     }
-
     if (this.isHidden) {
-      ctx.globalAlpha = Slot.hiddenOpacity
+      ctx.filter = Slot.filterString
     }
 
     const { x, y } = { ...this.renderLocation }
-
     ctx.fillStyle = "#4a5568"
 
     // * Draw Isometric Tile
@@ -49,27 +47,25 @@ export class Slot {
     ctx.fillStyle = "#2d3748"
 
     // * Draw Shadow of Isometric Tile
-    if (!this.isHidden) {
-      ctx.beginPath()
-      ctx.moveTo(x - unit, y)
-      ctx.lineTo(x - unit, y + unit / 5)
-      ctx.lineTo(x, y + unit / 2 + unit / 5)
-      ctx.lineTo(x, y + unit / 2)
-      ctx.closePath()
-      ctx.fill()
-      ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(x - unit, y)
+    ctx.lineTo(x - unit, y + unit / 4)
+    ctx.lineTo(x, y + unit / 2 + unit / 4)
+    ctx.lineTo(x, y + unit / 2)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
 
-      ctx.beginPath()
-      ctx.moveTo(x + unit, y)
-      ctx.lineTo(x + unit, y + unit / 5)
-      ctx.lineTo(x, y + unit / 2 + unit / 5)
-      ctx.lineTo(x, y + unit / 2)
-      ctx.closePath()
-      ctx.fill()
-      ctx.stroke()
-    }
+    ctx.beginPath()
+    ctx.moveTo(x + unit, y)
+    ctx.lineTo(x + unit, y + unit / 4)
+    ctx.lineTo(x, y + unit / 2 + unit / 4)
+    ctx.lineTo(x, y + unit / 2)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
 
-    ctx.globalAlpha = 1
+    ctx.filter = "none"
   }
 
   private drawWumpus(ctx: CanvasRenderingContext2D, unit: number) {
@@ -82,6 +78,29 @@ export class Slot {
       unit * Math.SQRT2,
       unit * Math.SQRT2
     )
+  }
+
+  public drawPit(ctx: CanvasRenderingContext2D, unit: number) {
+    if (this.type !== "P") {
+      return
+    }
+    if (this.isHidden) {
+      ctx.filter = Slot.filterString
+    }
+
+    const { x, y } = { ...this.renderLocation }
+    ctx.fillStyle = "#cd3132"
+
+    // * Draw Isometric Pit
+    ctx.beginPath()
+    ctx.moveTo(x, y - unit / 2)
+    ctx.lineTo(x + unit, y)
+    ctx.lineTo(x, y + unit / 2)
+    ctx.lineTo(x - unit, y)
+    ctx.closePath()
+    ctx.fill()
+
+    ctx.filter = "none"
   }
 
   private drawGold(ctx: CanvasRenderingContext2D, unit: number) {
@@ -99,8 +118,7 @@ export class Slot {
   private drawSenses(ctx: CanvasRenderingContext2D, unit: number) {
     const { x, y } = { ...this.renderLocation }
 
-    // Transforming Matrix for writing skewed Text
-    ctx.translate(x - unit, y)
+    ctx.translate(x - unit, y) // Transforming Matrix for writing skewed Text
     ctx.rotate(-0.463647609) // arctan(1 / 2)
     ctx.translate(1.5 * fontSize, 1.5 * fontSize)
     ctx.fillStyle = "black"
@@ -108,37 +126,30 @@ export class Slot {
     if (this.hasStench) {
       ctx.fillText("STENCH", 0, 0)
     }
-
     ctx.translate(fontSize, fontSize)
-    // ctx.translate()
 
     if (this.hasBreeze) {
       ctx.fillText("BREEZE", 0, 0)
     }
-
-    // Resetting Transformer to identity matrix
-    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.setTransform(1, 0, 0, 1, 0, 0) // Resetting Transformer to identity matrix
   }
 
   drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.isHidden) {
-      ctx.globalAlpha = Slot.hiddenOpacity
+      ctx.filter = Slot.filterString
     }
 
-    if (this.type === "W") {
-      this.drawWumpus(ctx, unit * 0.7)
-      return
+    switch (this.type) {
+      case "W":
+        this.drawWumpus(ctx, unit * 0.7)
+        break
+      case "G":
+        this.drawGold(ctx, unit * 0.9)
+        break
+      default:
+        this.drawSenses(ctx, unit)
     }
 
-    if (this.type === "G") {
-      this.drawGold(ctx, unit * 0.9)
-      return
-    }
-
-    if (this.type !== "P") {
-      this.drawSenses(ctx, unit)
-    }
-
-    ctx.globalAlpha = 1
+    ctx.filter = "none"
   }
 }

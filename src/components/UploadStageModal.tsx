@@ -17,17 +17,17 @@ import { Dispatch, SetStateAction } from "react"
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
-  setRawCSV: Dispatch<SetStateAction<string>>
+  setEnvironment: Dispatch<SetStateAction<string>>
 }
 
-export const UploadStageModal = ({ isOpen, onClose, setRawCSV }: ModalProps) => {
+export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps) => {
   const formik = useFormik({
     initialValues: {
       csv: "",
     },
 
     onSubmit: values => {
-      setRawCSV(values.csv)
+      setEnvironment(values.csv.replace(/[^SWAPG]/g, "")) // Sanitized with Regex
     },
   })
 
