@@ -1,14 +1,15 @@
 import { Position, wumpusImage, goldImage, fontSize } from "./game"
-
-export enum SlotType {
-  S, // Safe
-  W, // Wumpus
-  P, // Pot
-  G, // Gold
-}
+/*
+ * LEGEND --
+ *  S -> Safe
+ *  W -> Wumpus
+ *  P -> Pot
+ *  G -> Gold
+ */
+export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
-  readonly type: number
+  readonly type: EnvironmentVariable
   readonly renderLocation: Position
   static readonly hiddenOpacity = 0.33
 
@@ -16,13 +17,13 @@ export class Slot {
   hasStench = false
   hasBreeze = false
 
-  constructor(type: SlotType, renderLocation: Position) {
+  constructor(type: EnvironmentVariable, renderLocation: Position) {
     this.type = type
     this.renderLocation = renderLocation
   }
 
   public drawTile(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.type === SlotType.P) {
+    if (this.type === "P") {
       // Draw nothing for a pit
       return
     }
@@ -124,17 +125,17 @@ export class Slot {
       ctx.globalAlpha = Slot.hiddenOpacity
     }
 
-    if (this.type === SlotType.W) {
+    if (this.type === "W") {
       this.drawWumpus(ctx, unit * 0.7)
       return
     }
 
-    if (this.type === SlotType.G) {
+    if (this.type === "G") {
       this.drawGold(ctx, unit * 0.9)
       return
     }
 
-    if (this.type !== SlotType.P) {
+    if (this.type !== "P") {
       this.drawSenses(ctx, unit)
     }
 

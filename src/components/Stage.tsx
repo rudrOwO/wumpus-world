@@ -9,7 +9,7 @@ export const Stage = () => {
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [rawCSV, setRawCSV] = useState(`
-    S,W,W,S,S,S,S,S,S,S,
+    S,W,S,W,S,S,S,S,S,S,
     P,S,S,S,S,S,S,S,P,S,
     S,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,
@@ -18,7 +18,7 @@ export const Stage = () => {
     S,S,S,S,S,S,S,S,W,S,
     S,S,S,S,S,S,S,S,S,S,
     S,S,P,S,S,S,W,S,S,S,
-    S,S,S,S,S,S,S,S,S,S, 
+    S,S,S,S,S,S,S,S,S,P, 
   `)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)

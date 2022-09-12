@@ -1,4 +1,4 @@
-import { Slot, SlotType } from "./slot"
+import { Slot, EnvironmentVariable } from "./slot"
 
 let stage: Slot[][] = []
 
@@ -15,7 +15,7 @@ export const agentImage = new Array<HTMLImageElement>()
 export const generateStage = (rawCSV: string, unit: number) => {
   fontSize = Math.sqrt(unit * unit * (5 / 4)) / 5
 
-  const charGrid = rawCSV.replace(/[^SWAPG]/g, "")
+  const charGrid = rawCSV.replace(/[^SWAPG]/g, "") // Sanitizing Raw CSV String
   const newStage: Slot[][] = []
   const initalPos: Position = { x: 10 * unit, y: unit / 2 }
 
@@ -24,8 +24,7 @@ export const generateStage = (rawCSV: string, unit: number) => {
 
     for (let x = 0; x < 10; x++) {
       newStage[y].push(
-        //@ts-ignore
-        new Slot(SlotType[charGrid[10 * y + x]], {
+        new Slot(charGrid[10 * y + x] as EnvironmentVariable, {
           // +x for Isometric X Axis
           x: initalPos.x + x * unit,
           y: initalPos.y + x * unit * 0.5,
