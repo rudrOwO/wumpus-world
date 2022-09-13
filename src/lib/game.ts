@@ -15,7 +15,7 @@ export const agentImage = new Array<HTMLImageElement>()
 export const generateStage = (environment: Array<EnvironmentVariable>, unit: number) => {
   fontSize = Math.sqrt(unit * unit * (5 / 4)) / 6
   const newStage: Slot[][] = []
-  const initalPos: Position = { x: 10 * unit, y: unit / 2 }
+  const initalPos: Position = { x: 10 * unit, y: unit }
 
   for (let y = 0; y < 10; y++) {
     newStage.push([])
@@ -61,21 +61,21 @@ export const loadGameAssets = async (ctx: CanvasRenderingContext2D) => {
   )
 }
 
-export const runGameLoop = (ctx: CanvasRenderingContext2D, unit: number) => {
+export const gameTick = (ctx: CanvasRenderingContext2D, unit: number) => {
   ctx.clearRect(0, 0, 10 * 2 * unit, 10 * unit)
 
   // ! Test Stuff
-  stage[0][0].isInference = false
-  stage[1][0].isInference = false
+  stage[0][0].isSpeculation = false
+  stage[1][0].isSpeculation = false
   stage[0][0].hasBreeze = true
   stage[0][0].hasStench = true
-  stage[0][1].isInference = false
-  stage[0][2].isInference = false
-  stage[0][3].isInference = false
-  stage[0][4].isInference = false
-  stage[0][5].isInference = false
-  stage[1][8].isInference = false
-  stage[8][9].isInference = false
+  stage[0][1].isSpeculation = false
+  stage[0][2].isSpeculation = false
+  stage[0][3].isSpeculation = false
+  stage[0][4].isSpeculation = false
+  stage[0][5].isSpeculation = false
+  stage[1][8].isSpeculation = false
+  stage[8][9].isSpeculation = false
   // ! Test Stuff
 
   // * Loops for drawing the stage ~ Uses Painter's Algorithm

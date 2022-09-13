@@ -1,16 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import { Center, useDisclosure } from "@chakra-ui/react"
-import { generateStage, loadGameAssets, runGameLoop } from "../lib/game"
+import { generateStage, loadGameAssets, gameTick } from "../lib/game"
 import { useSimulation } from "../contexts/Simulation"
 import { UploadStageButton } from "./UploadStageButton"
 import { UploadStageModal } from "./UploadStageModal"
 
-interface StageProps {
-  flex: number
-}
-
-export const Stage = ({ flex }: StageProps) => {
-  const { isPlaying } = useSimulation()
+export const Stage = () => {
+  const { isPlaying, step } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [environment, setEnvironment] = useState(
     `
@@ -41,23 +37,27 @@ export const Stage = ({ flex }: StageProps) => {
     // Setting 2:1 Aspect Ratio for the canvas
     canvas.width = Math.max(container.clientHeight, container.clientWidth)
     canvasUnit.current = canvas.width / 20
-    canvas.height = canvas.width / 2 + canvasUnit.current * 0.5
+    canvas.height = canvas.width / 2 + canvasUnit.current
 
     loadGameAssets(canvasContext.current).then(_ => {
-      // * Run the loop once to draw stuff on the screen
-      runGameLoop(canvasContext.current!, canvasUnit.current)
+      gameTick(canvasContext.current!, canvasUnit.current)
     })
   }, [])
 
   useEffect(() => {
     //@ts-ignore
     generateStage(environment, canvasUnit.current)
-    runGameLoop(canvasContext.current!, canvasUnit.current)
-  }, [isPlaying, environment])
+    gameTick(canvasContext.current!, canvasUnit.current)
+  }, [environment])
+
+  useEffect(() => {
+    // TODO Change the Agent's operation mode (Auto / Stepped)
+    // TODO Signal Agent to execute one Step
+  }, [isPlaying, step])
 
   return (
     <>
-      <Center flex={flex} h="100%" ml="10px" mr="20px" ref={containerRef}>
+      <Center flex={4} h="100%" ml="10px" mr="20px" ref={containerRef}>
         <canvas ref={canvasRef} />
       </Center>
       <UploadStageButton onOpen={onOpen} />

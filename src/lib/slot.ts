@@ -9,12 +9,11 @@ import { Position, wumpusImage, goldImage, fontSize } from "./game"
 export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
-  readonly type: EnvironmentVariable = "S"
-  readonly renderLocation: Position
-  static readonly filterString = "grayscale(92%)"
+  static readonly filterString = "grayscale(95%)"
   static readonly heightScale = 0.3
-
-  public isInference = true
+  public readonly type: EnvironmentVariable = "S"
+  public readonly renderLocation: Position
+  public isSpeculation = true
   public hasStench = false
   public hasBreeze = false
 
@@ -23,11 +22,7 @@ export class Slot {
     this.renderLocation = renderLocation
   }
 
-  private static drawIsometricShape(
-    ctx: CanvasRenderingContext2D,
-    x: Array<number>,
-    y: Array<number>
-  ) {
+  private drawIsometricShape(ctx: CanvasRenderingContext2D, x: Array<number>, y: Array<number>) {
     ctx.beginPath()
     ctx.moveTo(x[0], y[0])
     ctx.lineTo(x[1], y[1])
@@ -43,23 +38,23 @@ export class Slot {
       // Draw nothing for a pit
       return
     }
-    if (this.isInference) {
+    if (this.isSpeculation) {
       ctx.filter = Slot.filterString
     }
     const { x, y } = { ...this.renderLocation }
 
     // * Draw Isometric Tile
     ctx.fillStyle = "#6B46C1"
-    Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
+    this.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     // * Draw Shadow of Isometric Tile
     ctx.fillStyle = "#44337A"
-    Slot.drawIsometricShape(
+    this.drawIsometricShape(
       ctx,
       [x - unit, x - unit, x, x],
       [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
-    Slot.drawIsometricShape(
+    this.drawIsometricShape(
       ctx,
       [x + unit, x + unit, x, x],
       [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
@@ -84,14 +79,14 @@ export class Slot {
     if (this.type !== "P") {
       return
     }
-    if (this.isInference) {
+    if (this.isSpeculation) {
       ctx.filter = Slot.filterString
     }
     let { x, y } = { ...this.renderLocation }
     y += unit * Slot.heightScale // Offset for pseudo height
 
     ctx.fillStyle = "#cd3132"
-    Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
+    this.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     ctx.filter = "none"
   }
@@ -128,7 +123,7 @@ export class Slot {
   }
 
   public drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.isInference) {
+    if (this.isSpeculation) {
       ctx.filter = Slot.filterString
     }
 
