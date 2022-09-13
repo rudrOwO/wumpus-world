@@ -11,13 +11,13 @@ export const UploadStageButton = ({ onOpen }: Props) => (
     left="3vw"
     top="88vh"
     colorScheme="unstyled"
-    bg="gray.600"
+    bg="purple.600"
     borderRadius="xl"
     size="lg"
     p="35px"
     onClick={onOpen}
     _hover={{
-      background: "gray.700",
+      background: "purple.700",
     }}
   >
     <Flex alignItems={"center"}>

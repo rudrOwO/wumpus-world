@@ -5,7 +5,11 @@ import { useSimulation } from "../contexts/Simulation"
 import { UploadStageButton } from "./UploadStageButton"
 import { UploadStageModal } from "./UploadStageModal"
 
-export const Stage = () => {
+interface StageProps {
+  flex: number
+}
+
+export const Stage = ({ flex }: StageProps) => {
   const { isPlaying } = useSimulation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [environment, setEnvironment] = useState(
@@ -37,7 +41,7 @@ export const Stage = () => {
     // Setting 2:1 Aspect Ratio for the canvas
     canvas.width = Math.max(container.clientHeight, container.clientWidth)
     canvasUnit.current = canvas.width / 20
-    canvas.height = canvas.width / 2 + canvasUnit.current / 4
+    canvas.height = canvas.width / 2 + canvasUnit.current * 0.5
 
     loadGameAssets(canvasContext.current).then(_ => {
       // * Run the loop once to draw stuff on the screen
@@ -53,7 +57,7 @@ export const Stage = () => {
 
   return (
     <>
-      <Center flex={5} h="100%" ml="10px" mr="20px" ref={containerRef}>
+      <Center flex={flex} h="100%" ml="10px" mr="20px" ref={containerRef}>
         <canvas ref={canvasRef} />
       </Center>
       <UploadStageButton onOpen={onOpen} />

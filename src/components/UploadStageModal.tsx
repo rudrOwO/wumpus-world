@@ -67,10 +67,10 @@ export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps
             <Button
               type="submit"
               colorScheme="unstyled"
+              bg="purple.600"
               _hover={{
-                background: "gray.700",
+                background: "purple.700",
               }}
-              bg="gray.600"
               onClick={onClose}
             >
               Upload

@@ -7,7 +7,8 @@ export const GithubButton = () => (
   <PanelButton toolTip="View Source">
     <Link
       zIndex={2}
-      href="https://github.com/rudrowo"
+      href="https://github.com/rudrowo/wumpus-world"
+      target="_blank"
       height="inherit"
       display="flex"
       justifyContent="center"

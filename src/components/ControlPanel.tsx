@@ -7,19 +7,19 @@ export const ControlPanel = () => {
   return (
     <Box
       shadow="xl"
-      padding="5px"
+      padding="2px"
       fontSize="lg"
       color="white"
       fontFamily="Discoteque St"
       width="100%"
-      bg="gray.600"
+      bg="purple.600"
       display="flex"
       alignItems="center"
       justifyContent="space-between"
       position="sticky"
     >
       <Center>
-        <Image src="wumpus.png" h="5vh" mr="3" />
+        <Image src="wumpus.png" h="5vh" mr="4" ml="2" />
         <Text display={["none", "none", "block"]}>Wumpus World</Text>
       </Center>
       <Center h="inherit" zIndex={1} w="100vw" position="fixed">

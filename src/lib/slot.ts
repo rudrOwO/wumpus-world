@@ -11,9 +11,10 @@ export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 export class Slot {
   readonly type: EnvironmentVariable = "S"
   readonly renderLocation: Position
-  static readonly filterString = "grayscale(75%)"
+  static readonly filterString = "grayscale(92%)"
+  static readonly heightScale = 0.3
 
-  public isHidden = true
+  public isInference = true
   public hasStench = false
   public hasBreeze = false
 
@@ -42,26 +43,26 @@ export class Slot {
       // Draw nothing for a pit
       return
     }
-    if (this.isHidden) {
+    if (this.isInference) {
       ctx.filter = Slot.filterString
     }
     const { x, y } = { ...this.renderLocation }
 
     // * Draw Isometric Tile
-    ctx.fillStyle = "#4a5568"
+    ctx.fillStyle = "#6B46C1"
     Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     // * Draw Shadow of Isometric Tile
-    ctx.fillStyle = "#2d3748"
+    ctx.fillStyle = "#44337A"
     Slot.drawIsometricShape(
       ctx,
       [x - unit, x - unit, x, x],
-      [y, y + unit / 4, y + unit / 2 + unit / 4, y + unit / 2]
+      [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
     Slot.drawIsometricShape(
       ctx,
       [x + unit, x + unit, x, x],
-      [y, y + unit / 4, y + unit / 2 + unit / 4, y + unit / 2]
+      [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
 
     ctx.filter = "none"
@@ -83,11 +84,11 @@ export class Slot {
     if (this.type !== "P") {
       return
     }
-    if (this.isHidden) {
+    if (this.isInference) {
       ctx.filter = Slot.filterString
     }
     let { x, y } = { ...this.renderLocation }
-    y += unit / 4 // Offset for pseudo height
+    y += unit * Slot.heightScale // Offset for pseudo height
 
     ctx.fillStyle = "#cd3132"
     Slot.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
@@ -118,7 +119,7 @@ export class Slot {
     if (this.hasStench) {
       ctx.fillText("STENCH", 0, 0)
     }
-    ctx.translate(fontSize, fontSize)
+    ctx.translate(1.5 * fontSize, 1.5 * fontSize)
 
     if (this.hasBreeze) {
       ctx.fillText("BREEZE", 0, 0)
@@ -127,7 +128,7 @@ export class Slot {
   }
 
   public drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.isHidden) {
+    if (this.isInference) {
       ctx.filter = Slot.filterString
     }
 

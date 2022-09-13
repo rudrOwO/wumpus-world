@@ -17,12 +17,11 @@ export const PanelButton = (props: NavButtonProps) => {
         disabled={disabled}
         size="lg"
         marginX="1px"
-        marginY={-1}
         colorScheme="unstyled"
         aria-label="Log Out"
         justifyContent="center"
         _hover={{
-          background: "gray.700",
+          background: "purple.700",
         }}
         onClick={handleClick}
       >
