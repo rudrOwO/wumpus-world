@@ -64,39 +64,12 @@ export const loadGameAssets = async (ctx: CanvasRenderingContext2D) => {
 export const gameTick = (ctx: CanvasRenderingContext2D, unit: number) => {
   ctx.clearRect(0, 0, 10 * 2 * unit, 10 * unit)
 
-  // ! Test Stuff
-  stage[0][0].isSpeculation = false
-  stage[1][0].isSpeculation = false
   stage[0][0].hasBreeze = true
-  stage[0][0].hasStench = true
-  stage[0][1].isSpeculation = false
-  stage[0][2].isSpeculation = false
-  stage[0][3].isSpeculation = false
-  stage[0][4].isSpeculation = false
-  stage[0][5].isSpeculation = false
-  stage[1][8].isSpeculation = false
-  stage[8][9].isSpeculation = false
-  // ! Test Stuff
 
-  // * Loops for drawing the stage ~ Uses Painter's Algorithm
-  // 1 Draw Pits
+  // * Drawing the stage with Painter's Algorithm
   for (let y = 0; y < 10; y++) {
     for (let x = 0; x < 10; x++) {
-      stage[y][x].drawPit(ctx, unit)
-    }
-  }
-
-  // 2 Draw Safe Tiles
-  for (let y = 0; y < 10; y++) {
-    for (let x = 0; x < 10; x++) {
-      stage[y][x].drawTile(ctx, unit)
-    }
-  }
-
-  // 3 Draw Other Environment Variables
-  for (let y = 0; y < 10; y++) {
-    for (let x = 0; x < 10; x++) {
-      stage[y][x].drawEnvironmentVariable(ctx, unit)
+      stage[y][x].drawToCanvas(ctx, unit)
     }
   }
 }

@@ -20,7 +20,7 @@ interface ModalProps {
   setEnvironment: Dispatch<SetStateAction<string>>
 }
 
-export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps) => {
+export const GenerateStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps) => {
   const formik = useFormik({
     initialValues: {
       csv: "",
@@ -34,8 +34,8 @@ export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl">
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Upload CSV for generating a Stage</ModalHeader>
+      <ModalContent bg="#e3e3e3">
+        <ModalHeader>Input a CSV configuration for generating a Stage</ModalHeader>
         <ModalCloseButton />
 
         <form onSubmit={formik.handleSubmit}>
@@ -47,8 +47,13 @@ export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps
               <code> A - Agent, G - Gold, W - Wumpus, P - Pit, S - Safe </code>
             </Box>
             <chakra.textarea
+              bg="#eeeeee"
+              outline="none"
               rows={10}
               borderRadius="lg"
+              _focus={{
+                outlineColor: "purple.600",
+              }}
               fontSize="lg"
               padding="10px"
               width="100%"
@@ -73,7 +78,7 @@ export const UploadStageModal = ({ isOpen, onClose, setEnvironment }: ModalProps
               }}
               onClick={onClose}
             >
-              Upload
+              Generate
             </Button>
           </ModalFooter>
         </form>

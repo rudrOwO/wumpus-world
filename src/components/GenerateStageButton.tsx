@@ -1,28 +1,29 @@
+import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react"
 import { MdPostAdd } from "react-icons/md"
-import { Button, Flex, Text } from "@chakra-ui/react"
 
 interface Props {
-  onOpen: () => void
+  onClick: () => void
 }
 
-export const UploadStageButton = ({ onOpen }: Props) => (
+export const GenerateStageButton = ({ onClick: handleClick }: Props) => (
   <Button
-    position="absolute"
-    left="3vw"
-    top="88vh"
+    shadow="xl"
+    mt="10px"
+    mx="5px"
     colorScheme="unstyled"
     bg="purple.600"
     borderRadius="xl"
+    borderWidth="1px"
+    borderColor="purple.700"
     size="lg"
-    p="35px"
-    onClick={onOpen}
+    onClick={handleClick}
     _hover={{
       background: "purple.700",
     }}
   >
     <Flex alignItems={"center"}>
       <MdPostAdd fontSize="32px" />
-      <Text display={["none", "none", "inline"]} fontSize="2xl" ml="10px" mt="6px">
+      <Text fontSize="2xl" ml="10px" mt="6px">
         CSV
       </Text>
     </Flex>

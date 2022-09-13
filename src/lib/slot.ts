@@ -9,10 +9,11 @@ import { Position, wumpusImage, goldImage, fontSize } from "./game"
 export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
-  static readonly filterString = "grayscale(95%)"
-  static readonly heightScale = 0.3
+  private static readonly heightScale = 0.3
+  private static readonly grayScale: string = "95%"
+  private readonly renderLocation: Position
+
   public readonly type: EnvironmentVariable = "S"
-  public readonly renderLocation: Position
   public isSpeculation = true
   public hasStench = false
   public hasBreeze = false
@@ -22,7 +23,7 @@ export class Slot {
     this.renderLocation = renderLocation
   }
 
-  private drawIsometricShape(ctx: CanvasRenderingContext2D, x: Array<number>, y: Array<number>) {
+  private drawPolygon(ctx: CanvasRenderingContext2D, x: Array<number>, y: Array<number>) {
     ctx.beginPath()
     ctx.moveTo(x[0], y[0])
     ctx.lineTo(x[1], y[1])
@@ -35,32 +36,26 @@ export class Slot {
 
   public drawTile(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.type === "P") {
-      // Draw nothing for a pit
       return
-    }
-    if (this.isSpeculation) {
-      ctx.filter = Slot.filterString
     }
     const { x, y } = { ...this.renderLocation }
 
     // * Draw Isometric Tile
     ctx.fillStyle = "#6B46C1"
-    this.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
+    this.drawPolygon(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
 
     // * Draw Shadow of Isometric Tile
     ctx.fillStyle = "#44337A"
-    this.drawIsometricShape(
+    this.drawPolygon(
       ctx,
       [x - unit, x - unit, x, x],
       [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
-    this.drawIsometricShape(
+    this.drawPolygon(
       ctx,
       [x + unit, x + unit, x, x],
       [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
-
-    ctx.filter = "none"
   }
 
   private drawWumpus(ctx: CanvasRenderingContext2D, unit: number) {
@@ -79,16 +74,11 @@ export class Slot {
     if (this.type !== "P") {
       return
     }
-    if (this.isSpeculation) {
-      ctx.filter = Slot.filterString
-    }
     let { x, y } = { ...this.renderLocation }
     y += unit * Slot.heightScale // Offset for pseudo height
 
     ctx.fillStyle = "#cd3132"
-    this.drawIsometricShape(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
-
-    ctx.filter = "none"
+    this.drawPolygon(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
   }
 
   private drawGold(ctx: CanvasRenderingContext2D, unit: number) {
@@ -104,6 +94,9 @@ export class Slot {
   }
 
   private drawSenses(ctx: CanvasRenderingContext2D, unit: number) {
+    if (this.isSpeculation) {
+      return
+    }
     const { x, y } = { ...this.renderLocation }
 
     ctx.translate(x - unit, y) // Transforming Matrix for writing skewed Text
@@ -122,10 +115,13 @@ export class Slot {
     ctx.setTransform(1, 0, 0, 1, 0, 0) // Resetting Transformer to identity matrix
   }
 
-  public drawEnvironmentVariable(ctx: CanvasRenderingContext2D, unit: number) {
+  public drawToCanvas(ctx: CanvasRenderingContext2D, unit: number) {
     if (this.isSpeculation) {
-      ctx.filter = Slot.filterString
+      ctx.filter = `grayscale(${Slot.grayScale})`
     }
+
+    this.drawPit(ctx, unit)
+    this.drawTile(ctx, unit)
 
     switch (this.type) {
       case "W":
@@ -137,7 +133,6 @@ export class Slot {
       default:
         this.drawSenses(ctx, unit)
     }
-
     ctx.filter = "none"
   }
 }

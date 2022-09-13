@@ -2,26 +2,15 @@ import { useEffect, useRef, useState } from "react"
 import { Center, useDisclosure } from "@chakra-ui/react"
 import { generateStage, loadGameAssets, gameTick } from "../lib/game"
 import { useSimulation } from "../contexts/Simulation"
-import { UploadStageButton } from "./UploadStageButton"
-import { UploadStageModal } from "./UploadStageModal"
+import { GenerateStage } from "./GenerateStage"
 
-export const Stage = () => {
+interface StageProps {
+  flex: number
+  environment: string
+}
+
+export const Stage = ({ flex, environment }: StageProps) => {
   const { isPlaying, step } = useSimulation()
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [environment, setEnvironment] = useState(
-    `
-    S,W,S,W,S,S,S,S,S,S,
-    P,S,S,S,S,S,S,S,P,S,
-    P,S,S,S,W,S,S,S,S,S,
-    S,S,S,S,S,S,S,S,S,S,
-    S,S,P,S,S,S,S,S,S,S,
-    S,S,S,S,S,G,S,S,S,S,
-    S,S,S,S,S,S,S,S,W,S,
-    S,S,P,S,S,S,S,S,S,S,
-    S,S,P,S,S,S,W,S,S,S,
-    G,S,S,S,S,S,S,S,P,P, 
-  `.replace(/[^SWAPG]/g, "") // Sanitized input to remove unwanted characters
-  )
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
@@ -56,12 +45,8 @@ export const Stage = () => {
   }, [isPlaying, step])
 
   return (
-    <>
-      <Center flex={4} h="100%" ml="10px" mr="20px" ref={containerRef}>
-        <canvas ref={canvasRef} />
-      </Center>
-      <UploadStageButton onOpen={onOpen} />
-      <UploadStageModal isOpen={isOpen} onClose={onClose} setEnvironment={setEnvironment} />
-    </>
+    <Center flex={flex} h="100%" ml="10px" mr="20px" ref={containerRef}>
+      <canvas ref={canvasRef} />
+    </Center>
   )
 }

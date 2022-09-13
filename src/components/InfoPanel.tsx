@@ -1,51 +1,35 @@
-import { Center, Flex, Image, Text } from "@chakra-ui/react"
+import { Center, Flex, Image, Text, Box } from "@chakra-ui/react"
 import { ReactNode } from "react"
 import { IconType } from "react-icons"
 
-interface InferenceProps {
+interface InfoPanelProps {
   flex: number
   title: string
   icon: IconType
   children?: ReactNode
 }
 
-export const InfoPanel = (props: InferenceProps) => {
+export const InfoPanel = (props: InfoPanelProps) => {
   const { flex, title, icon: Icon, children } = props
 
   return (
     <Flex
+      borderRadius="xl"
+      shadow="lg"
       mt="10px"
-      mr="10px"
-      display={["none", "none", "block"]}
+      mx="5px"
       flex={flex}
       flexDirection="column"
+      bg="#333333"
     >
-      <Flex
-        bg="purple.600"
-        borderTopLeftRadius="lg"
-        borderTopRightRadius="lg"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Center ml="20px">
-          <Image h="45px" src="/android0.svg" />
-          <Text color="#eeeeee" mx="5%" mt="5%" fontSize="2xl" fontWeight="bold">
-            {title}
-          </Text>
-        </Center>
-        <Center mr="20px">
-          <Icon size="30px" color="#eeeeee" />
-        </Center>
-      </Flex>
-      <Flex
-        borderBottomRightRadius="lg"
-        borderBottomLeftRadius="lg"
-        flexDirection="column"
-        bg="#1C1C1C"
-      >
-        {children}
-      </Flex>
+      <Center gap="5%" bg="purple.600" borderTopLeftRadius="xl" borderTopRightRadius="xl">
+        <Image h="40px" src="/android0.svg" />
+        <Text color="#eeeeee" mx="5%" mt="2%" fontSize="xl" fontWeight="bold">
+          {title}
+        </Text>
+        <Icon size="20px" color="#eeeeee" />
+      </Center>
+      {children}
     </Flex>
   )
 }
