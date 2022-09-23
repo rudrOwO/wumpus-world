@@ -1,4 +1,4 @@
-import { Center, Flex, Image, Text, Box } from "@chakra-ui/react"
+import { Center, Flex, Image, Text } from "@chakra-ui/react"
 import { ReactNode } from "react"
 import { IconType } from "react-icons"
 
@@ -23,8 +23,8 @@ export const InfoPanel = (props: InfoPanelProps) => {
       bg="#333333"
     >
       <Center gap="5%" bg="purple.600" borderTopLeftRadius="xl" borderTopRightRadius="xl">
-        <Image h="40px" src="/android0.svg" />
-        <Text color="#eeeeee" mx="5%" mt="2%" fontSize="xl" fontWeight="bold">
+        <Image h="36px" src="/android0.svg" />
+        <Text color="#eeeeee" mx="5%" mt="2%" fontSize="lg" fontWeight="bold">
           {title}
         </Text>
         <Icon size="20px" color="#eeeeee" />

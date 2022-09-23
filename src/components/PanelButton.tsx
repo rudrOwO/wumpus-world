@@ -15,7 +15,7 @@ export const PanelButton = (props: NavButtonProps) => {
     <Tooltip hasArrow label={toolTipMessage} fontSize="md">
       <IconButton
         disabled={disabled}
-        size="lg"
+        size="md"
         marginX="1px"
         colorScheme="unstyled"
         aria-label="Log Out"

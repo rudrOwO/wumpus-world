@@ -1,4 +1,4 @@
-import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react"
+import { Button, Flex, Text } from "@chakra-ui/react"
 import { MdPostAdd } from "react-icons/md"
 
 interface Props {

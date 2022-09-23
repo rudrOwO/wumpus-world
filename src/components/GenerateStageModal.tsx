@@ -47,6 +47,7 @@ export const GenerateStageModal = ({ isOpen, onClose, setEnvironment }: ModalPro
               <code> A - Agent, G - Gold, W - Wumpus, P - Pit, S - Safe </code>
             </Box>
             <chakra.textarea
+              placeholder={"S,W,S,W,S,S,P,S,S,S,\nP,S,W,G,S,S,S,P,S,S,\n...\n...\n...\nx10"}
               bg="#eeeeee"
               outline="none"
               rows={10}

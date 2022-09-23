@@ -7,7 +7,6 @@ export const ControlPanel = () => {
   return (
     <Box
       shadow="xl"
-      padding="2px"
       fontSize="lg"
       color="white"
       fontFamily="Discoteque St"

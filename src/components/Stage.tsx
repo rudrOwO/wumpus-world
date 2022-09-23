@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react"
-import { Center, useDisclosure } from "@chakra-ui/react"
+import { useEffect, useRef } from "react"
+import { Center } from "@chakra-ui/react"
 import { generateStage, loadGameAssets, gameTick } from "../lib/game"
 import { useSimulation } from "../contexts/Simulation"
-import { GenerateStage } from "./GenerateStage"
 
 interface StageProps {
   flex: number
@@ -14,7 +13,7 @@ export const Stage = ({ flex, environment }: StageProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasContext = useRef<CanvasRenderingContext2D | null>(null)
-  const canvasUnit = useRef<number>(-1)
+  const canvasUnit = useRef(-1)
 
   useEffect(() => {
     // Setting convas co-ordinate system to containing loyout element
