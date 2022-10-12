@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Flex } from "@chakra-ui/react"
+import { Center, Flex } from "@chakra-ui/react"
 import { ControlPanel } from "./components/ControlPanel"
 import { GenerateStage } from "./components/GenerateStage"
 import { Stage } from "./components/Stage"
@@ -27,16 +27,13 @@ const App = () => {
     <Flex flexDirection="column" w="100vw" h="100vh" bgGradient="linear-gradient(#303030, #666666)">
       <ControlPanel />
       <Flex flexGrow={1} mb="0.5%">
-        <Flex flex={1} flexDirection="column">
-          <Map />
-          <Sensors />
-          <GenerateStage setEnvironment={setEnvironment} />
-        </Flex>
-        <Stage flex={3} environment={environment} />
-        <Flex flex={1} flexDirection="column">
-          <Actuators />
-          <Brain />
-        </Flex>
+        <Stage flex={5} environment={environment} />
+        <Center flex={2} mr="8px">
+          <Flex flexDirection="column" w="100%" style={{ aspectRatio: "1 / 1.1" }}>
+            <Map />
+            <GenerateStage setEnvironment={setEnvironment} />
+          </Flex>
+        </Center>
       </Flex>
     </Flex>
   )

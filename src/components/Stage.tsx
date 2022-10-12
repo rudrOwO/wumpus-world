@@ -44,7 +44,7 @@ export const Stage = ({ flex, environment }: StageProps) => {
   }, [isPlaying, step])
 
   return (
-    <Center flex={flex} h="100%" ml="10px" mr="20px" ref={containerRef}>
+    <Center flex={flex} h="100%" mx="25px" ref={containerRef}>
       <canvas ref={canvasRef} />
     </Center>
   )
