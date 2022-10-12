@@ -23,7 +23,7 @@ export const InfoPanel = (props: InfoPanelProps) => {
       bg="#333333"
     >
       <Center gap="5%" bg="purple.600" borderTopLeftRadius="xl" borderTopRightRadius="xl">
-        <Image h="36px" src="/android0.svg" />
+        {/* <Image h="36px" src="/android0.svg" /> */}
         <Text color="#eeeeee" mx="5%" mt="2%" fontSize="lg" fontWeight="bold">
           {title}
         </Text>

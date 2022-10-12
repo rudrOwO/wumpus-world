@@ -11,7 +11,7 @@ import { Sensors } from "./components/Sensors"
 const App = () => {
   const [environment, setEnvironment] = useState(
     `
-    S,S,P,S,S,S,S,S,S,S,
+    A,S,P,S,S,S,S,S,S,S,
     S,P,S,S,S,S,S,S,P,S,
     P,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,

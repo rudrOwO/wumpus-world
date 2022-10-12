@@ -1,6 +1,8 @@
+import { Agent } from "./agent"
 import { Slot, EnvironmentVariable } from "./slot"
 
 let stage: Slot[][] = []
+let agent: Agent | null = null
 
 export let fontSize: number
 export interface Position {
@@ -28,6 +30,12 @@ export const generateStage = (environment: Array<EnvironmentVariable>, unit: num
           y: initalPos.y + x * unit * 0.5,
         })
       )
+
+      // Spawn Agent
+      if (newStage[y][x].type === "A") {
+        newStage[y][x].type = "S"
+        agent = new Agent({ x: x, y: y }, newStage[y][x].renderLocation)
+      }
     }
 
     // -1 for Isometric Y Axis
@@ -96,4 +104,6 @@ export const gameTick = (ctx: CanvasRenderingContext2D, unit: number) => {
       stage[y][x].drawToCanvas(ctx, unit)
     }
   }
+
+  agent?.drawToCanvas(ctx, unit * 0.75)
 }

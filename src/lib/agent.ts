@@ -26,4 +26,16 @@ export class Agent {
   move() {
     // TODO: Change both stageLocation & renderLocation here
   }
+
+  public drawToCanvas(ctx: CanvasRenderingContext2D, unit: number) {
+    const { x, y } = { ...this.renderLocation }
+
+    ctx.drawImage(
+      agentImage[Direction.FORWARD],
+      x - unit * Math.SQRT1_2,
+      y - unit * 0.9,
+      unit * Math.SQRT2,
+      unit * Math.SQRT2
+    )
+  }
 }

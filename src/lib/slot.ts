@@ -10,9 +10,9 @@ export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
   private static readonly heightScale = 0.3
-  private readonly renderLocation: Position
+  public readonly renderLocation: Position
 
-  public readonly type: EnvironmentVariable = "S"
+  public type: EnvironmentVariable = "S"
   public hasStench = false
   public hasBreeze = false
   public isResolved = false
