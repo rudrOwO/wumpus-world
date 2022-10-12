@@ -13,7 +13,7 @@ export const updateKnowledgeBase = (slot: Slot) => {
 
 export const updateCurrentPlan = (slot: Slot) => {
   // Add a new frontier to current plan
-  if (!currentPlan.has(agent.stageLocation)) {
+  if (!currentPlan.has(slot.stageLocation)) {
     currentPlan.set(slot.stageLocation, new Frontier(slot))
   }
 
