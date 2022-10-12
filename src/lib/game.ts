@@ -13,7 +13,7 @@ export const goldImage = new Image()
 export const agentImage = new Array<HTMLImageElement>()
 
 export const generateStage = (environment: Array<EnvironmentVariable>, unit: number) => {
-  fontSize = Math.sqrt(unit * unit * (5 / 4)) / 6
+  fontSize = Math.sqrt(unit * unit * (5 / 4)) / 5
   const newStage: Slot[][] = []
   const initalPos: Position = { x: 10 * unit, y: unit }
 

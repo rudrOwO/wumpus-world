@@ -11,8 +11,8 @@ import { Sensors } from "./components/Sensors"
 const App = () => {
   const [environment, setEnvironment] = useState(
     `
-    W,S,P,S,S,S,S,S,S,S,
-    S,S,S,S,S,S,S,S,P,S,
+    S,S,P,S,S,S,S,S,S,S,
+    S,P,S,S,S,S,S,S,P,S,
     P,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,
     S,S,P,S,S,S,S,S,S,S,
@@ -24,7 +24,7 @@ const App = () => {
   `.replace(/[^SWAPG]/g, "") // Sanitized input to remove unwanted characters
   )
   return (
-    <Flex flexDirection="column" w="100vw" h="100vh" bgGradient="linear-gradient(#303030, #666666)">
+    <Flex flexDirection="column" w="100vw" h="100vh" bgGradient="linear-gradient(#686688, #555555)">
       <ControlPanel />
       <Flex flexGrow={1} mb="0.5%">
         <Stage flex={5} environment={environment} />
