@@ -20,7 +20,7 @@ export const InfoPanel = (props: InfoPanelProps) => {
       mx="5px"
       flex={flex}
       flexDirection="column"
-      bg="#333333"
+      bg="#383838"
     >
       <Center gap="5%" bg="purple.600" borderTopLeftRadius="xl" borderTopRightRadius="xl">
         {/* <Image h="36px" src="/android0.svg" /> */}

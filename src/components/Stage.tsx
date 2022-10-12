@@ -35,13 +35,16 @@ export const Stage = ({ flex, environment }: StageProps) => {
   useEffect(() => {
     //@ts-ignore
     generateStage(environment, canvasUnit.current)
-    gameTick(canvasContext.current!, canvasUnit.current)
   }, [environment])
 
   useEffect(() => {
     // TODO Change the Agent's operation mode (Auto / Stepped)
-    // TODO Signal Agent to execute one Step
-  }, [isPlaying, step])
+  }, [isPlaying])
+
+  useEffect(() => {
+    // Signal Agent to execute one Step
+    gameTick(canvasContext.current!, canvasUnit.current)
+  }, [step])
 
   return (
     <Center flex={flex} h="100%" mx="25px" ref={containerRef}>

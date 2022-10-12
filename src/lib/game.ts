@@ -1,8 +1,9 @@
 import { Agent } from "./agent"
 import { Slot, EnvironmentVariable } from "./slot"
+import { updateKnowledgeBase } from "./ai"
 
-let stage: Slot[][] = []
-let agent: Agent | null = null
+export let stage: Slot[][] = []
+export let agent: Agent = new Agent({ x: 0, y: 0 }, { x: 0, y: 0 })
 
 export let fontSize: number
 export interface Position {
@@ -24,11 +25,15 @@ export const generateStage = (environment: Array<EnvironmentVariable>, unit: num
 
     for (let x = 0; x < 10; x++) {
       newStage[y].push(
-        new Slot(environment[10 * y + x], {
-          // +x for Isometric X Axis
-          x: initalPos.x + x * unit,
-          y: initalPos.y + x * unit * 0.5,
-        })
+        new Slot(
+          environment[10 * y + x],
+          { x: x, y: y },
+          {
+            // +x for Isometric X Axis
+            x: initalPos.x + x * unit,
+            y: initalPos.y + x * unit * 0.5,
+          }
+        )
       )
 
       // Spawn Agent
@@ -105,5 +110,9 @@ export const gameTick = (ctx: CanvasRenderingContext2D, unit: number) => {
     }
   }
 
-  agent?.drawToCanvas(ctx, unit * 0.75)
+  agent.drawToCanvas(ctx, unit * 0.75)
+  const { x, y } = { ...agent.stageLocation }
+
+  updateKnowledgeBase(stage[y][x])
+  // TODO Call movement method here
 }

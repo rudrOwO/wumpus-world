@@ -10,6 +10,7 @@ export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
   private static readonly heightScale = 0.3
+  public readonly stageLocation: Position
   public readonly renderLocation: Position
 
   public type: EnvironmentVariable = "S"
@@ -22,8 +23,9 @@ export class Slot {
     pit: 0,
   }
 
-  constructor(type: EnvironmentVariable, renderLocation: Position) {
+  constructor(type: EnvironmentVariable, stageLocation: Position, renderLocation: Position) {
     this.type = type
+    this.stageLocation = stageLocation
     this.renderLocation = renderLocation
   }
 
@@ -149,5 +151,21 @@ export class Slot {
     this.drawWumpus(ctx, unit * 0.7)
     this.drawGold(ctx, unit * 0.9)
     this.drawSenses(ctx, unit)
+  }
+
+  public getNeighbors() {
+    const neighbors = new Array<Slot>()
+    const { x, y } = { ...this.stageLocation }
+
+    const top: Position | null = y - 1 >= 0 ? { x: x, y: y - 1 } : null
+    const down: Position | null = y + 1 < 10 ? { x: x, y: y + 1 } : null
+    const left: Position | null = x - 1 >= 0 ? { x: x - 1, y: y } : null
+    const right: Position | null = x + 1 < 10 ? { x: x + 1, y: y } : null
+
+    for (const pos of [top, down, left, right]) {
+      if (pos) {
+        this.neighbors.push(stage[pos.y][pos.x])
+      }
+    }
   }
 }
