@@ -1,4 +1,4 @@
-import { Position, wumpusImage, goldImage, fontSize } from "./game"
+import { Position, wumpusImage, stage, goldImage, fontSize } from "./game"
 /*
  * LEGEND --
  *  S -> Safe
@@ -164,8 +164,10 @@ export class Slot {
 
     for (const pos of [top, down, left, right]) {
       if (pos) {
-        this.neighbors.push(stage[pos.y][pos.x])
+        neighbors.push(stage[pos.y][pos.x])
       }
     }
+    
+    return neighbors
   }
 }

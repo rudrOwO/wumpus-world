@@ -48,23 +48,15 @@ export const generateStage = (environment: Array<EnvironmentVariable>, unit: num
     initalPos.y += unit / 2
   }
 
+  stage = newStage
+
   // Populate sensory slots
   for (let y = 0; y < 10; y++) {
     for (let x = 0; x < 10; x++) {
       const center = newStage[y][x]
+      const neighbors = center.getNeighbors()
 
-      const top: Position | null = y - 1 >= 0 ? { x: x, y: y - 1 } : null
-      const down: Position | null = y + 1 < 10 ? { x: x, y: y + 1 } : null
-      const left: Position | null = x - 1 >= 0 ? { x: x - 1, y: y } : null
-      const right: Position | null = x + 1 < 10 ? { x: x + 1, y: y } : null
-
-      for (const pos of [top, down, left, right]) {
-        if (!pos) {
-          continue
-        }
-
-        const neighbor = newStage[pos.y][pos.x]
-
+      for (const neighbor of neighbors) {
         if (center.type === "W") {
           neighbor.hasStench = true
         } else if (center.type === "P") {
@@ -73,8 +65,6 @@ export const generateStage = (environment: Array<EnvironmentVariable>, unit: num
       }
     }
   }
-
-  stage = newStage
 }
 
 export const loadGameAssets = async (ctx: CanvasRenderingContext2D) => {
