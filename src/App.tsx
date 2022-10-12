@@ -11,16 +11,16 @@ import { Sensors } from "./components/Sensors"
 const App = () => {
   const [environment, setEnvironment] = useState(
     `
-    S,S,S,S,S,S,S,S,S,S,
+    W,S,P,S,S,S,S,S,S,S,
     S,S,S,S,S,S,S,S,P,S,
-    S,S,S,S,W,S,S,S,S,S,
+    P,S,S,S,W,S,S,S,S,S,
     S,S,S,S,S,S,S,S,S,S,
     S,S,P,S,S,S,S,S,S,S,
     S,S,S,S,S,G,S,S,S,S,
     S,S,S,S,S,S,S,S,W,S,
     S,S,P,S,S,S,S,S,S,S,
     S,S,P,S,S,S,W,S,S,S,
-    G,S,S,S,S,S,S,S,P,P, 
+    S,S,S,S,S,S,S,S,P,P, 
   `.replace(/[^SWAPG]/g, "") // Sanitized input to remove unwanted characters
   )
   return (

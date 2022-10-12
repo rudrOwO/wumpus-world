@@ -94,7 +94,7 @@ export class Slot {
   }
 
   private drawSenses(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.isSpeculation) {
+    if (this.type === "P" || this.isSpeculation) {
       return
     }
     const { x, y } = { ...this.renderLocation }
@@ -116,6 +116,9 @@ export class Slot {
   }
 
   public drawToCanvas(ctx: CanvasRenderingContext2D, unit: number) {
+    // TODO: Handle Speculation
+    // this.isSpeculation = false
+
     if (this.isSpeculation) {
       ctx.filter = `grayscale(${Slot.grayScale})`
     }
