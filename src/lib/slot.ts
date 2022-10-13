@@ -153,8 +153,8 @@ export class Slot {
     this.drawSenses(ctx, unit)
   }
 
-  public getNeighbors() {
-    const neighbors = new Array<Slot>()
+  public getNeighborhood() {
+    const neighborhood = new Array<Slot>()
     const { x, y } = { ...this.stageLocation }
 
     const top: Position | null = y - 1 >= 0 ? { x: x, y: y - 1 } : null
@@ -164,10 +164,10 @@ export class Slot {
 
     for (const pos of [top, down, left, right]) {
       if (pos) {
-        neighbors.push(stage[pos.y][pos.x])
+        neighborhood.push(stage[pos.y][pos.x])
       }
     }
     
-    return neighbors
+    return neighborhood
   }
 }
