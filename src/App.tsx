@@ -21,7 +21,7 @@ const App = () => {
     S,S,S,S,S,S,S,S,W,S,
     S,S,P,S,S,S,S,S,S,S,
     S,S,P,S,S,S,W,S,S,S,
-    G,S,S,S,S,S,S,S,P,P, 
+    A,S,S,S,S,S,S,S,P,P, 
   `.replace(/[^SWAPG]/g, "") // Sanitized input to remove unwanted characters
   )
 

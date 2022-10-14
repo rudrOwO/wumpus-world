@@ -16,6 +16,8 @@ export const ControlPanel = () => {
       alignItems="center"
       justifyContent="space-between"
       position="sticky"
+      borderWidth="1px"
+      borderColor="purple.700"
     >
       <Center>
         <Image src="wumpus.png" h="5vh" mr="4" ml="2" />

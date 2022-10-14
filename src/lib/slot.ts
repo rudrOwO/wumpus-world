@@ -1,4 +1,4 @@
-import { Position, wumpusImage, goldImage, fontSize } from "./game"
+import { Position, wumpusImage, stage, goldImage, fontSize } from "./game"
 /*
  * LEGEND --
  *  S -> Safe
@@ -10,16 +10,22 @@ export type EnvironmentVariable = "S" | "W" | "A" | "P" | "G"
 
 export class Slot {
   private static readonly heightScale = 0.3
-  private static readonly grayScale: string = "95%"
-  private readonly renderLocation: Position
+  public readonly stageLocation: Position
+  public readonly renderLocation: Position
 
-  public readonly type: EnvironmentVariable = "S"
-  public isSpeculation = true
+  public type: EnvironmentVariable = "S"
   public hasStench = false
   public hasBreeze = false
+  public isResolved = false
 
-  constructor(type: EnvironmentVariable, renderLocation: Position) {
+  public confidence = {
+    wumpus: 0,
+    pit: 0,
+  }
+
+  constructor(type: EnvironmentVariable, stageLocation: Position, renderLocation: Position) {
     this.type = type
+    this.stageLocation = stageLocation
     this.renderLocation = renderLocation
   }
 
@@ -34,11 +40,22 @@ export class Slot {
     ctx.stroke()
   }
 
+  public applyFilter(ctx: CanvasRenderingContext2D, on: "wumpus" | "pit" | "tile") {
+    const grayScalePercentage = this.isResolved ? "0%" : "95%"
+    const opacityPercentage =
+      on === "tile" ? "100%" : on === "wumpus" ? this.confidence.wumpus : this.confidence.pit
+
+    ctx.filter = `grayscale(${grayScalePercentage}) opacity(${opacityPercentage})`
+  }
+
+  public clearFilter(ctx: CanvasRenderingContext2D) {
+    ctx.filter = "none"
+  }
+
   public drawTile(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.type === "P") {
-      return
-    }
     const { x, y } = { ...this.renderLocation }
+
+    this.applyFilter(ctx, "tile")
 
     // * Draw Isometric Tile
     ctx.fillStyle = "#6B46C1"
@@ -56,11 +73,14 @@ export class Slot {
       [x + unit, x + unit, x, x],
       [y, y + unit * Slot.heightScale, y + unit / 2 + unit * Slot.heightScale, y + unit / 2]
     )
+
+    this.clearFilter(ctx)
   }
 
   private drawWumpus(ctx: CanvasRenderingContext2D, unit: number) {
     const { x, y } = { ...this.renderLocation }
 
+    this.applyFilter(ctx, "wumpus")
     ctx.drawImage(
       wumpusImage,
       x - unit * Math.SQRT1_2,
@@ -68,6 +88,7 @@ export class Slot {
       unit * Math.SQRT2,
       unit * Math.SQRT2
     )
+    this.clearFilter(ctx)
   }
 
   public drawPit(ctx: CanvasRenderingContext2D, unit: number) {
@@ -78,10 +99,16 @@ export class Slot {
     y += unit * Slot.heightScale // Offset for pseudo height
 
     ctx.fillStyle = "#cd3132"
+
+    this.applyFilter(ctx, "pit")
     this.drawPolygon(ctx, [x, x + unit, x, x - unit], [y - unit / 2, y, y + unit / 2, y])
+    this.clearFilter(ctx)
   }
 
   private drawGold(ctx: CanvasRenderingContext2D, unit: number) {
+    if (this.type !== "G" || !this.isResolved) {
+      return
+    }
     const { x, y } = { ...this.renderLocation }
 
     ctx.drawImage(
@@ -94,7 +121,7 @@ export class Slot {
   }
 
   private drawSenses(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.isSpeculation) {
+    if (this.type !== "S" || !this.isResolved) {
       return
     }
     const { x, y } = { ...this.renderLocation }
@@ -116,23 +143,31 @@ export class Slot {
   }
 
   public drawToCanvas(ctx: CanvasRenderingContext2D, unit: number) {
-    if (this.isSpeculation) {
-      ctx.filter = `grayscale(${Slot.grayScale})`
+    if (this.confidence.pit > 0) {
+      this.drawPit(ctx, unit)
+    } else {
+      this.drawTile(ctx, unit)
     }
+    this.drawWumpus(ctx, unit * 0.7)
+    this.drawGold(ctx, unit * 0.9)
+    this.drawSenses(ctx, unit)
+  }
 
-    this.drawPit(ctx, unit)
-    this.drawTile(ctx, unit)
+  public getNeighborhood() {
+    const neighborhood = new Array<Slot>()
+    const { x, y } = { ...this.stageLocation }
 
-    switch (this.type) {
-      case "W":
-        this.drawWumpus(ctx, unit * 0.7)
-        break
-      case "G":
-        this.drawGold(ctx, unit * 0.9)
-        break
-      default:
-        this.drawSenses(ctx, unit)
+    const top: Position | null = y - 1 >= 0 ? { x: x, y: y - 1 } : null
+    const down: Position | null = y + 1 < 10 ? { x: x, y: y + 1 } : null
+    const left: Position | null = x - 1 >= 0 ? { x: x - 1, y: y } : null
+    const right: Position | null = x + 1 < 10 ? { x: x + 1, y: y } : null
+
+    for (const pos of [top, down, left, right]) {
+      if (pos) {
+        neighborhood.push(stage[pos.y][pos.x])
+      }
     }
-    ctx.filter = "none"
+    
+    return neighborhood
   }
 }
